@@ -13,6 +13,15 @@ CREATE TABLE IF NOT EXISTS profiles (
   updated_at           TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+-- Ensure all columns exist (in case table was pre-existing)
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS email TEXT;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS full_name TEXT;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS plan TEXT NOT NULL DEFAULT 'free' CHECK (plan IN ('free', 'pro'));
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS paddle_customer_id TEXT;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS paddle_subscription_id TEXT;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ NOT NULL DEFAULT now();
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT now();
+
 -- 2. MONITORS
 CREATE TABLE IF NOT EXISTS monitors (
   id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
