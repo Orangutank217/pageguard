@@ -1,8 +1,8 @@
 -- PageGuard Database Schema
--- Run this in the Supabase SQL Editor
+-- Fully idempotent — safe to run multiple times
 
 -- 1. PROFILES
-CREATE TABLE profiles (
+CREATE TABLE IF NOT EXISTS profiles (
   id                   UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   email                TEXT,
   full_name            TEXT,
@@ -14,7 +14,7 @@ CREATE TABLE profiles (
 );
 
 -- 2. MONITORS
-CREATE TABLE monitors (
+CREATE TABLE IF NOT EXISTS monitors (
   id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id          UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   name             TEXT NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE monitors (
 );
 
 -- 3. CHECKS
-CREATE TABLE checks (
+CREATE TABLE IF NOT EXISTS checks (
   id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   monitor_id       UUID NOT NULL REFERENCES monitors(id) ON DELETE CASCADE,
   status_code      INT,
@@ -38,7 +38,7 @@ CREATE TABLE checks (
 );
 
 -- 4. INCIDENTS
-CREATE TABLE incidents (
+CREATE TABLE IF NOT EXISTS incidents (
   id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   monitor_id       UUID NOT NULL REFERENCES monitors(id) ON DELETE CASCADE,
   started_at       TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -48,7 +48,7 @@ CREATE TABLE incidents (
 );
 
 -- 5. STATUS PAGES
-CREATE TABLE status_pages (
+CREATE TABLE IF NOT EXISTS status_pages (
   id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id       UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   slug          TEXT NOT NULL UNIQUE,
@@ -60,21 +60,21 @@ CREATE TABLE status_pages (
 );
 
 -- 6. STATUS PAGE <-> MONITOR JOIN
-CREATE TABLE status_page_monitors (
+CREATE TABLE IF NOT EXISTS status_page_monitors (
   id             UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   status_page_id UUID NOT NULL REFERENCES status_pages(id) ON DELETE CASCADE,
   monitor_id     UUID NOT NULL REFERENCES monitors(id) ON DELETE CASCADE,
   UNIQUE(status_page_id, monitor_id)
 );
 
--- INDEXES
-CREATE INDEX idx_monitors_user_id ON monitors(user_id);
-CREATE INDEX idx_checks_monitor_id ON checks(monitor_id);
-CREATE INDEX idx_checks_checked_at ON checks(checked_at DESC);
-CREATE INDEX idx_incidents_monitor_id ON incidents(monitor_id);
-CREATE INDEX idx_status_pages_slug ON status_pages(slug);
-CREATE INDEX idx_status_pages_user_id ON status_pages(user_id);
-CREATE INDEX idx_profiles_paddle_customer ON profiles(paddle_customer_id);
+-- INDEXES (IF NOT EXISTS)
+CREATE INDEX IF NOT EXISTS idx_monitors_user_id ON monitors(user_id);
+CREATE INDEX IF NOT EXISTS idx_checks_monitor_id ON checks(monitor_id);
+CREATE INDEX IF NOT EXISTS idx_checks_checked_at ON checks(checked_at DESC);
+CREATE INDEX IF NOT EXISTS idx_incidents_monitor_id ON incidents(monitor_id);
+CREATE INDEX IF NOT EXISTS idx_status_pages_slug ON status_pages(slug);
+CREATE INDEX IF NOT EXISTS idx_status_pages_user_id ON status_pages(user_id);
+CREATE INDEX IF NOT EXISTS idx_profiles_paddle_customer ON profiles(paddle_customer_id);
 
 -- ROW LEVEL SECURITY
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
@@ -84,7 +84,17 @@ ALTER TABLE incidents ENABLE ROW LEVEL SECURITY;
 ALTER TABLE status_pages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE status_page_monitors ENABLE ROW LEVEL SECURITY;
 
--- RLS POLICIES
+-- RLS POLICIES (drop & recreate to be idempotent)
+DROP POLICY IF EXISTS "Own profile select" ON profiles;
+DROP POLICY IF EXISTS "Own profile update" ON profiles;
+DROP POLICY IF EXISTS "Users own monitors all" ON monitors;
+DROP POLICY IF EXISTS "Users view own monitor checks" ON checks;
+DROP POLICY IF EXISTS "Service role insert checks" ON checks;
+DROP POLICY IF EXISTS "Users view own monitor incidents" ON incidents;
+DROP POLICY IF EXISTS "Users own status pages all" ON status_pages;
+DROP POLICY IF EXISTS "Anyone read public status pages" ON status_pages;
+DROP POLICY IF EXISTS "Users own spm all" ON status_page_monitors;
+DROP POLICY IF EXISTS "Anyone read public spm" ON status_page_monitors;
 
 -- Profiles: users can view/update their own
 CREATE POLICY "Own profile select"
@@ -136,6 +146,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION handle_new_user();
@@ -149,8 +160,10 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS profiles_updated_at ON profiles;
 CREATE TRIGGER profiles_updated_at
   BEFORE UPDATE ON profiles FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+DROP TRIGGER IF EXISTS monitors_updated_at ON monitors;
 CREATE TRIGGER monitors_updated_at
   BEFORE UPDATE ON monitors FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
