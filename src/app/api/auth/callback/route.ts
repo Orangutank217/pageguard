@@ -9,6 +9,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Missing code" }, { status: 400 });
   }
 
+  // Create response first — cookies from exchangeCodeForSession
+  // must be set on a real response to reach the browser.
+  const response = NextResponse.json({ ok: true });
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -18,8 +22,8 @@ export async function POST(request: NextRequest) {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options)
           );
         },
       },
@@ -32,5 +36,5 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
 
-  return NextResponse.json({ ok: true });
+  return response;
 }

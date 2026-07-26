@@ -7,6 +7,11 @@ export async function GET(request: NextRequest) {
   const next = searchParams.get("next") ?? searchParams.get("redirectTo") ?? "/dashboard";
 
   if (code) {
+    // Create the redirect response FIRST — cookies set during
+    // exchangeCodeForSession must be attached to this response
+    // so the browser receives them.
+    const response = NextResponse.redirect(`${origin}${next}`);
+
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -16,8 +21,8 @@ export async function GET(request: NextRequest) {
             return request.cookies.getAll();
           },
           setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value }) =>
-              request.cookies.set(name, value)
+            cookiesToSet.forEach(({ name, value, options }) =>
+              response.cookies.set(name, value, options)
             );
           },
         },
@@ -26,7 +31,7 @@ export async function GET(request: NextRequest) {
 
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      return NextResponse.redirect(`${origin}${next}`);
+      return response;
     }
   }
 
