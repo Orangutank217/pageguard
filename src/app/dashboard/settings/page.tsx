@@ -73,21 +73,35 @@ export default function SettingsPage() {
     router.refresh();
   };
 
-  const handleUpgrade = () => {
-    if (typeof window !== "undefined" && (window as any).Paddle) {
-      (window as any).Paddle.Checkout.open({
-        items: [
-          {
-            priceId: process.env.NEXT_PUBLIC_PADDLE_PRO_PRICE_ID,
-            quantity: 1,
-          },
-        ],
-        customData: {
-          user_id: profile?.id,
-        },
-      });
-    } else {
-      toast.error("Payment system loading. Please try again.");
+  const [upgrading, setUpgrading] = useState(false);
+
+  const handleUpgrade = async () => {
+    if (upgrading) return;
+    setUpgrading(true);
+
+    try {
+      const priceId = process.env.NEXT_PUBLIC_PADDLE_PRO_PRICE_ID;
+      const userId = profile?.id;
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? window.location.origin;
+
+      if (!priceId || !userId) {
+        toast.error("Missing configuration. Please try again later.");
+        setUpgrading(false);
+        return;
+      }
+
+      // Build Paddle hosted checkout URL
+      const checkoutUrl = new URL("https://buy.paddle.com/checkout/price/" + priceId);
+      checkoutUrl.searchParams.set("quantity", "1");
+      checkoutUrl.searchParams.set("custom_data[user_id]", userId);
+      checkoutUrl.searchParams.set("return_url", appUrl + "/dashboard/settings?upgrade=success");
+
+      // Open in new tab — avoids CSP/overlay issues
+      window.open(checkoutUrl.toString(), "_blank");
+      setUpgrading(false);
+    } catch {
+      toast.error("Failed to open checkout. Please try again.");
+      setUpgrading(false);
     }
   };
 
@@ -131,8 +145,8 @@ export default function SettingsPage() {
                   : "Upgrade for unlimited monitors and priority checks."}
               </p>
             </div>
-            <Button onClick={handleUpgrade} variant={isPro ? "outline" : "default"}>
-              {isPro ? "Manage Subscription" : "Upgrade to Pro — $9/mo"}
+            <Button onClick={handleUpgrade} disabled={upgrading} variant={isPro ? "outline" : "default"}>
+              {upgrading ? "Opening..." : isPro ? "Manage Subscription" : "Upgrade to Pro — $9/mo"}
             </Button>
           </div>
         </CardContent>
