@@ -250,7 +250,7 @@ export function BentoFeatures() {
           {/* Card 2: Status Pages — col 2-3 (larger) */}
           <BentoAnimateIn delay={150}>
             <div
-              className={`group relative overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:col-span-2 ${accentMap[features[1].accent].border} ${accentMap[features[1].accent].bg}`}
+              className={`group relative overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg lg:col-span-2 ${accentMap[features[1].accent].border} ${accentMap[features[1].accent].bg}`}
             >
               <div className="flex flex-col p-6 sm:flex-row sm:items-start sm:gap-6">
                 <div className="shrink-0">
@@ -300,7 +300,7 @@ export function BentoFeatures() {
           {/* Card 4: Analytics — col 2-3 (spans to fill space) */}
           <BentoAnimateIn delay={250}>
             <div
-              className={`group relative overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:col-span-2 ${accentMap[features[3].accent].border} ${accentMap[features[3].accent].bg}`}
+              className={`group relative overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg lg:col-span-2 ${accentMap[features[3].accent].border} ${accentMap[features[3].accent].bg}`}
             >
               <div className="flex flex-col p-6 sm:flex-row sm:items-start sm:gap-6">
                 <div className="shrink-0">
