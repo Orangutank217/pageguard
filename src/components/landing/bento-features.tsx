@@ -221,7 +221,7 @@ export function BentoFeatures() {
           </div>
         </BentoAnimateIn>
 
-        {/* Bento Grid — 4 features in asymmetric layout */}
+        {/* Bento Grid — 4 features: asymmetric 3-col layout */}
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {/* Card 1: Alerts — col 1 */}
           <BentoAnimateIn delay={100}>
@@ -297,48 +297,30 @@ export function BentoFeatures() {
             </div>
           </BentoAnimateIn>
 
-          {/* Card 4: Analytics — col 2 (not 3, to create staggered layout) */}
+          {/* Card 4: Analytics — col 2-3 (spans to fill space) */}
           <BentoAnimateIn delay={250}>
             <div
-              className={`group relative overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${accentMap[features[3].accent].border} ${accentMap[features[3].accent].bg}`}
+              className={`group relative overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:col-span-2 ${accentMap[features[3].accent].border} ${accentMap[features[3].accent].bg}`}
             >
-              <div className="p-6">
-                <div className={`mb-4 inline-flex rounded-lg p-2.5 ${accentMap[features[3].accent].iconBg}`}>
-                  {features[3].icon}
+              <div className="flex flex-col p-6 sm:flex-row sm:items-start sm:gap-6">
+                <div className="shrink-0">
+                  <div className={`mb-4 inline-flex rounded-lg p-2.5 ${accentMap[features[3].accent].iconBg}`}>
+                    {features[3].icon}
+                  </div>
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">
-                  {features[3].title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {features[3].description}
-                </p>
-                {features[3].content}
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-lg font-semibold text-foreground">
+                    {features[3].title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {features[3].description}
+                  </p>
+                  {features[3].content}
+                </div>
               </div>
               <div className="pointer-events-none absolute -bottom-8 -right-8 h-24 w-24 rounded-full opacity-[0.06]"
                 style={{ background: "radial-gradient(circle, #a78bfa, transparent 70%)" }}
               />
-            </div>
-          </BentoAnimateIn>
-
-          {/* Card 5: Dashboard preview / extra — col 3 (fills the gap) */}
-          <BentoAnimateIn delay={300}>
-            <div className="group relative flex flex-col items-center justify-center overflow-hidden rounded-xl border border-dashed border-primary/20 bg-gradient-to-br from-primary/[0.03] to-blue-400/[0.03] p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-              <span className="mb-2 text-2xl">🚀</span>
-              <h3 className="text-sm font-semibold text-foreground">Start Free Today</h3>
-              <p className="mt-1 text-xs text-muted-foreground">
-                No credit card required
-              </p>
-              <a
-                href="/auth/signup"
-                className="mt-3 inline-flex items-center gap-1 rounded-lg bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground shadow-sm transition-all hover:bg-primary/90"
-              >
-                Get Started
-                <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
-              </a>
-              {/* Decorative dots */}
-              <div className="bento-grid-bg pointer-events-none absolute inset-0 opacity-50" />
             </div>
           </BentoAnimateIn>
         </div>
