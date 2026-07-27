@@ -1,97 +1,80 @@
-import { ShieldIcon } from "@/components/shared/pageguard-branding";
+import { AnimateIn } from "@/components/shared/animate-in";
 
 const features = [
   {
-    title: "Real-time Monitoring",
+    title: "Real-time Alerts",
     description:
-      "Check your sites every 5 minutes (or every 1 minute on Pro). Get alerted the moment something breaks.",
-    icon: <ShieldIcon className="h-6 w-6" />,
-  },
-  {
-    title: "Instant Alerts",
-    description:
-      "Email notifications when your site goes down and when it comes back up. Know before your customers notice.",
+      "Get instant email notifications when your site goes down. Know about issues before your customers do.",
     icon: (
       <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
+        viewBox="0 0 40 40"
         fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        className="h-6 w-6"
+        className="h-10 w-10"
+        aria-hidden="true"
       >
-        <rect x="2" y="4" width="20" height="16" rx="2" />
-        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+        <rect x="8" y="4" width="24" height="32" rx="4" stroke="#3b82f6" strokeWidth="2" fill="none" />
+        <rect x="12" y="8" width="6" height="4" rx="1" fill="#3b82f6" opacity="0.4" />
+        <rect x="22" y="8" width="6" height="4" rx="1" fill="#3b82f6" opacity="0.4" />
+        <rect x="12" y="16" width="16" height="2" rx="1" fill="#3b82f6" opacity="0.6" />
+        <rect x="12" y="22" width="12" height="2" rx="1" fill="#3b82f6" opacity="0.5" />
+        <circle cx="20" cy="30" r="3" fill="#ef4444" />
+        <path d="M20 27v3h-2" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
     ),
   },
   {
-    title: "Public Status Pages",
+    title: "Beautiful Status Pages",
     description:
-      "Share a beautiful status page with your customers. No login required. Pro plan removes our branding.",
+      "Share a public status page with your users. Custom branding, real-time updates, and historical uptime.",
     icon: (
       <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
+        viewBox="0 0 40 40"
         fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        className="h-6 w-6"
+        className="h-10 w-10"
+        aria-hidden="true"
       >
-        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+        <rect x="4" y="6" width="32" height="28" rx="3" stroke="#22c55e" strokeWidth="2" fill="none" />
+        <rect x="8" y="10" width="24" height="4" rx="1" fill="#22c55e" opacity="0.3" />
+        <circle cx="12" cy="20" r="4" fill="#22c55e" />
+        <path d="M16 26l4 4 8-8" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
   },
   {
-    title: "Incident History",
+    title: "1-Minute Check Intervals",
     description:
-      "Every outage is recorded automatically. View incident timelines, durations, and resolution times.",
+      "Pro plans check your sites every minute. Free plans check every 5 minutes. Never miss an outage.",
     icon: (
       <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
+        viewBox="0 0 40 40"
         fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        className="h-6 w-6"
+        className="h-10 w-10"
+        aria-hidden="true"
       >
-        <circle cx="12" cy="12" r="10" />
-        <polyline points="12 6 12 12 16 14" />
+        <circle cx="20" cy="20" r="14" stroke="#f59e0b" strokeWidth="2" fill="none" />
+        <circle cx="20" cy="20" r="14" stroke="#f59e0b" strokeWidth="2" strokeDasharray="10 76" strokeDashoffset="-5" fill="none" opacity="0.3" />
+        <path d="M20 12v8l6 3" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="20" cy="20" r="3" fill="#f59e0b" />
       </svg>
     ),
   },
   {
-    title: "Response Time Tracking",
+    title: "Detailed Analytics",
     description:
-      "Monitor response times and spot slowdowns before they become outages. Historical data for trend analysis.",
+      "Track response times, uptime percentages, and check history. Export data anytime for your records.",
     icon: (
       <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
+        viewBox="0 0 40 40"
         fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        className="h-6 w-6"
+        className="h-10 w-10"
+        aria-hidden="true"
       >
-        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-      </svg>
-    ),
-  },
-  {
-    title: "Easy Setup",
-    description:
-      "Add a URL, choose your check interval, and you're done. No complex configuration or scripting required.",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        className="h-6 w-6"
-      >
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        <rect x="4" y="10" width="6" height="20" rx="1.5" fill="#a78bfa" opacity="0.6" />
+        <rect x="14" y="6" width="6" height="24" rx="1.5" fill="#a78bfa" />
+        <rect x="24" y="14" width="6" height="16" rx="1.5" fill="#a78bfa" opacity="0.6" />
+        <rect x="4" y="30" width="28" height="3" rx="1.5" fill="#a78bfa" opacity="0.3" />
+        <circle cx="17" cy="10" r="2" fill="#a78bfa" />
+        <path d="M15 12l-4 6 6 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.5" />
       </svg>
     ),
   },
@@ -99,31 +82,38 @@ const features = [
 
 export function FeaturesGrid() {
   return (
-    <section className="bg-white px-6 py-20 sm:py-28">
-      <div className="mx-auto max-w-6xl">
-        <h2 className="text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Everything you need to sleep better
-        </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-center text-lg text-muted-foreground">
-          PageGuard monitors your sites so you don&apos;t have to. Get alerted
-          instantly when something breaks.
-        </p>
-        <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((f) => (
-            <div
-              key={f.title}
-              className="rounded-xl border border-border bg-background p-6 transition-shadow hover:shadow-md"
-            >
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                {f.icon}
+    <section
+      id="features"
+      className="bg-background px-6 py-20 sm:py-28"
+    >
+      <AnimateIn>
+        <div className="mx-auto max-w-6xl">
+          <h2 className="text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Everything you need to sleep soundly
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-center text-lg text-muted-foreground">
+            PageGuard gives you full visibility into your site&apos;s
+            availability with minimal setup.
+          </p>
+        </div>
+      </AnimateIn>
+
+      <div className="mx-auto mt-12 grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {features.map((feature, i) => (
+          <AnimateIn key={feature.title} delay={100 * (i + 1)}>
+            <div className="group rounded-xl border border-border bg-white p-6 transition-all duration-200 hover:-translate-y-1 hover:border-primary/20 hover:shadow-lg hover:shadow-primary/5">
+              <div className="mb-4 transition-colors duration-200 group-hover:scale-110 group-hover:opacity-90">
+                {feature.icon}
               </div>
-              <h3 className="mt-4 font-semibold text-foreground">{f.title}</h3>
+              <h3 className="text-base font-semibold text-foreground">
+                {feature.title}
+              </h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {f.description}
+                {feature.description}
               </p>
             </div>
-          ))}
-        </div>
+          </AnimateIn>
+        ))}
       </div>
     </section>
   );

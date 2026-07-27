@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,20 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import type { Profile } from "@/types/database";
 
+// Paddle.js client-side SDK added at runtime
+declare global {
+  interface Window {
+    Paddle: {
+      Environment: { set: (env: string) => void };
+      Initialize: (config: { token?: string }) => void;
+      Checkout: {
+        open: (options: Record<string, unknown>) => void;
+        on: (event: string, handler: () => void) => void;
+      };
+    };
+  }
+}
+
 export default function SettingsPage() {
   const router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -20,22 +34,35 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
+  const fetchProfile = useCallback(async () => {
     const supabase = createClient();
-    supabase.auth.getUser().then(async ({ data: { user } }) => {
-      if (!user) return;
-      const { data } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", user.id)
-        .single();
-      if (data) {
-        setProfile(data);
-        setFullName(data.full_name ?? "");
-      }
-      setLoading(false);
-    });
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    const { data } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+    if (data) {
+      setProfile(data);
+      setFullName(data.full_name ?? "");
+    }
+    setLoading(false);
   }, []);
+
+  useEffect(() => {
+    fetchProfile();
+
+    // Check if returning from successful Paddle checkout
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("upgrade") === "success") {
+      toast.success("Welcome to Pro! Your plan has been upgraded.", { duration: 6000 });
+      // Clean up the URL
+      window.history.replaceState({}, "", "/dashboard/settings");
+      // Re-fetch profile to show Pro badge
+      fetchProfile();
+    }
+  }, [fetchProfile]);
 
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,15 +101,51 @@ export default function SettingsPage() {
   };
 
   const [upgrading, setUpgrading] = useState(false);
+  const [paddleReady, setPaddleReady] = useState(false);
+
+  // Load Paddle.js from CDN and initialise
+  useEffect(() => {
+    // Already loaded by a previous render
+    if (typeof window.Paddle !== "undefined" && window.Paddle) {
+      setPaddleReady(true);
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = "https://cdn.paddle.com/paddle/v2/paddle.js";
+    script.async = true;
+    script.onload = () => {
+      if (window.Paddle) {
+        window.Paddle.Environment.set("production");
+        window.Paddle.Initialize({
+          token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN,
+        });
+        // Listen for completed checkouts to refresh profile + show toast
+        window.Paddle.Checkout.on("checkout.completed", () => {
+          fetchProfile();
+          toast.success("Welcome to Pro! Your plan has been upgraded.", {
+            duration: 6000,
+          });
+        });
+        setPaddleReady(true);
+      }
+    };
+    document.head.appendChild(script);
+  }, [fetchProfile]);
 
   const handleUpgrade = async () => {
     if (upgrading) return;
+
+    if (!paddleReady) {
+      toast.error("Payment system is still loading. Please try again in a moment.");
+      return;
+    }
+
     setUpgrading(true);
 
     try {
       const priceId = process.env.NEXT_PUBLIC_PADDLE_PRO_PRICE_ID;
       const userId = profile?.id;
-      const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? window.location.origin;
 
       if (!priceId || !userId) {
         toast.error("Missing configuration. Please try again later.");
@@ -90,16 +153,15 @@ export default function SettingsPage() {
         return;
       }
 
-      // Build Paddle hosted checkout URL
-      const checkoutUrl = new URL("https://buy.paddle.com/checkout/price/" + priceId);
-      checkoutUrl.searchParams.set("quantity", "1");
-      checkoutUrl.searchParams.set("custom_data[user_id]", userId);
-      checkoutUrl.searchParams.set("return_url", appUrl + "/dashboard/settings?upgrade=success");
+      // Open Paddle Billing v2 overlay checkout
+      window.Paddle.Checkout.open({
+        items: [{ priceId, quantity: 1 }],
+        customData: { user_id: userId },
+      });
 
-      // Open in new tab — avoids CSP/overlay issues
-      window.open(checkoutUrl.toString(), "_blank");
       setUpgrading(false);
-    } catch {
+    } catch (error) {
+      console.error("Paddle checkout error:", error);
       toast.error("Failed to open checkout. Please try again.");
       setUpgrading(false);
     }

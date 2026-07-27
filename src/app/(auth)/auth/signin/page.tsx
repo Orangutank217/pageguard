@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
@@ -15,6 +15,29 @@ function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") ?? "/dashboard";
+  const errorParam = searchParams.get("error");
+  const errorDetail = searchParams.get("error_detail");
+  const errorCode = searchParams.get("error_code");
+
+  useEffect(() => {
+    if (errorParam === "auth_failed") {
+      let msg = "Sign-in failed. ";
+      if (errorDetail) {
+        msg += `Supabase says: ${errorDetail}`;
+        if (errorCode) msg += ` (code: ${errorCode})`;
+      } else {
+        msg += "This usually means your account could not be created. If signing up with Google, please try email signup instead.";
+      }
+      toast.error(msg, { duration: 10000 });
+    } else if (errorParam === "session_missing") {
+      toast.error("No session found. Please try signing in again.", { duration: 6000 });
+    } else if (errorParam === "no_code") {
+      toast.error("No authentication code received. This is likely a Supabase Auth configuration issue.", { duration: 8000 });
+    } else if (errorParam) {
+      toast.error(`Authentication error: ${errorParam}${errorDetail ? ` - ${errorDetail}` : ""}`, { duration: 6000 });
+    }
+  }, [errorParam, errorDetail, errorCode]);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -42,10 +65,12 @@ function SignInForm() {
 
   const handleGoogleSignIn = async () => {
     const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? window.location.origin;
+    // Store the redirect destination in the URL path — Supabase validates
+    // redirectTo against its configured Redirect URLs, so keep it clean.
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${appUrl}/auth/callback?redirectTo=${redirectTo}`,
+        redirectTo: `${appUrl}/auth/callback`,
       },
     });
 
