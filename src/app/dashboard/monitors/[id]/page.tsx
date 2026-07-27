@@ -109,8 +109,44 @@ export default function MonitorDetailPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary/30 border-t-primary" />
+      <div>
+        {/* Back button */}
+        <div className="mb-6">
+          <div className="mb-2 h-8 w-32 animate-pulse rounded bg-muted" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="h-4 w-4 animate-pulse rounded-full bg-muted" />
+              <div>
+                <div className="mb-1 h-7 w-48 animate-pulse rounded bg-muted" />
+                <div className="h-4 w-64 animate-pulse rounded bg-muted" />
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <div className="h-9 w-28 animate-pulse rounded bg-muted" />
+              <div className="h-9 w-20 animate-pulse rounded bg-muted" />
+            </div>
+          </div>
+        </div>
+        {/* Uptime skeleton */}
+        <div className="mb-6 grid grid-cols-3 gap-4">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="rounded-xl border border-border bg-white p-4 text-center">
+              <div className="mx-auto mb-1 h-8 w-16 animate-pulse rounded bg-muted" />
+              <div className="mx-auto h-3 w-24 animate-pulse rounded bg-muted" />
+            </div>
+          ))}
+        </div>
+        {/* Chart skeleton */}
+        <div className="mb-6 rounded-xl border border-border bg-white p-6">
+          <div className="mb-4 h-5 w-48 animate-pulse rounded bg-muted" />
+          <div className="h-48 w-full animate-pulse rounded bg-muted" />
+        </div>
+        {/* Tabs skeleton */}
+        <div className="mb-4 flex gap-2">
+          <div className="h-9 w-32 animate-pulse rounded bg-muted" />
+          <div className="h-9 w-28 animate-pulse rounded bg-muted" />
+        </div>
+        <div className="h-64 w-full animate-pulse rounded-xl bg-muted" />
       </div>
     );
   }

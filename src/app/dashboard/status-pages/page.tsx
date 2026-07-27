@@ -37,8 +37,24 @@ export default function StatusPagesPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary/30 border-t-primary" />
+      <div>
+        <div className="mb-6">
+          <div className="h-8 w-40 animate-pulse rounded bg-muted" />
+          <div className="mt-1 h-4 w-64 animate-pulse rounded bg-muted" />
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="rounded-xl border border-border bg-white p-4">
+              <div className="mb-3 h-5 w-3/4 animate-pulse rounded bg-muted" />
+              <div className="mb-2 h-4 w-1/2 animate-pulse rounded bg-muted" />
+              <div className="mb-4 h-8 w-full animate-pulse rounded bg-muted" />
+              <div className="flex gap-2">
+                <div className="h-8 flex-1 animate-pulse rounded bg-muted" />
+                <div className="h-8 w-10 animate-pulse rounded bg-muted" />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

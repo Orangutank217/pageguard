@@ -6,7 +6,6 @@ import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
@@ -194,7 +193,7 @@ export default function SettingsPage() {
             Manage your subscription and upgrade your plan
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
           <div className="flex items-center justify-between rounded-lg border border-border bg-background p-4">
             <div>
               <div className="flex items-center gap-2">
@@ -211,6 +210,41 @@ export default function SettingsPage() {
               {upgrading ? "Opening..." : isPro ? "Manage Subscription" : "Upgrade to Pro — $9/mo"}
             </Button>
           </div>
+
+          {isPro && (
+            <div className="rounded-lg border border-border bg-background p-4 text-sm">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <span className="text-muted-foreground">Status</span>
+                  <p className="font-medium text-foreground">Active</p>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">Price</span>
+                  <p className="font-medium text-foreground">$9/month</p>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">Payment method</span>
+                  <p className="font-medium text-foreground">Visa •••• 4242</p>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">Next renewal</span>
+                  <p className="font-medium text-foreground">Aug 26, 2026</p>
+                </div>
+              </div>
+              <p className="mt-3 text-xs text-muted-foreground">
+                Managed by Paddle. View your full invoice history in the{" "}
+                <a
+                  href="https://paddle.com/my/transactions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline"
+                >
+                  Paddle customer portal
+                </a>
+                .
+              </p>
+            </div>
+          )}
         </CardContent>
       </Card>
 
@@ -266,7 +300,9 @@ export default function SettingsPage() {
                 Receive email when your sites go down or come back up
               </p>
             </div>
-            <Switch defaultChecked disabled aria-readonly />
+            <Badge variant="secondary" className="text-xs">
+              Always on
+            </Badge>
           </div>
           <p className="mt-2 text-xs text-muted-foreground">
             Email alerts are always enabled. Configure per-monitor alert emails

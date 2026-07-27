@@ -15,8 +15,27 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary/30 border-t-primary" />
+      <div>
+        <div className="mb-6">
+          <div className="h-8 w-32 animate-pulse rounded bg-muted" />
+          <div className="mt-1 h-4 w-56 animate-pulse rounded bg-muted" />
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="rounded-xl border border-border bg-white p-6">
+              <div className="mb-3 flex items-center gap-3">
+                <div className="h-3 w-3 animate-pulse rounded-full bg-muted" />
+                <div className="h-5 flex-1 animate-pulse rounded bg-muted" />
+              </div>
+              <div className="mb-4 h-4 w-3/4 animate-pulse rounded bg-muted" />
+              <div className="h-4 w-1/2 animate-pulse rounded bg-muted" />
+              <div className="mt-4 flex gap-2">
+                <div className="h-8 flex-1 animate-pulse rounded bg-muted" />
+                <div className="h-8 w-16 animate-pulse rounded bg-muted" />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

@@ -5,7 +5,12 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PageGuardLogo } from "@/components/shared/pageguard-branding";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
-import { MenuIcon, XIcon } from "lucide-react";
+import { MenuIcon } from "lucide-react";
+
+const navLinks = [
+  { href: "/#features", label: "Features" },
+  { href: "/pricing", label: "Pricing" },
+];
 
 export function MarketingNav() {
   const [scrolled, setScrolled] = useState(false);
@@ -29,6 +34,15 @@ export function MarketingNav() {
 
         {/* Desktop nav */}
         <div className="hidden items-center gap-6 sm:flex">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {link.label}
+            </Link>
+          ))}
           <Link
             href="/auth/signin"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
@@ -54,6 +68,15 @@ export function MarketingNav() {
             <div className="flex flex-col gap-6">
               <PageGuardLogo className="text-lg" />
               <div className="flex flex-col gap-3">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
                 <Link
                   href="/auth/signin"
                   className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"

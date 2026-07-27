@@ -13,6 +13,11 @@ export function Hero() {
         }}
       />
 
+      {/* Decorative floating blobs */}
+      <div className="pointer-events-none absolute -top-32 -left-32 h-96 w-96 rounded-full bg-primary/5 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-40 -right-32 h-80 w-80 rounded-full bg-blue-400/5 blur-3xl" />
+      <div className="pointer-events-none absolute top-1/3 right-1/4 h-48 w-48 rounded-full bg-primary/5 blur-2xl" />
+
       <div className="relative mx-auto max-w-6xl text-center">
         <AnimateIn delay={0}>
           <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
