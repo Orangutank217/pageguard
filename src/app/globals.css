@@ -1,36 +1,48 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #f8fafc;
-  --color-foreground: #0f172a;
-  --color-muted-foreground: #64748b;
+  /* Apple-style palette */
+  --color-background: #f5f5f7;
+  --color-foreground: #1d1d1f;
+  --color-muted-foreground: #86868b;
   --color-card: #ffffff;
-  --color-card-foreground: #0f172a;
-  --color-primary: #3b82f6;
+  --color-card-foreground: #1d1d1f;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #1d1d1f;
+  --color-primary: #0071e3;
   --color-primary-foreground: #ffffff;
-  --color-border: #e2e8f0;
-  --color-input: #e2e8f0;
-  --color-ring: #3b82f6;
-  --color-success: #22c55e;
-  --color-destructive: #ef4444;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, monospace;
-  --radius: 0.5rem;
+  --color-secondary: #f5f5f7;
+  --color-secondary-foreground: #1d1d1f;
+  --color-accent: #e8e8ed;
+  --color-accent-foreground: #1d1d1f;
+  --color-border: #e5e5ea;
+  --color-input: #e5e5ea;
+  --color-ring: #0071e3;
+  --color-success: #34c759;
+  --color-destructive: #ff3b30;
+  --color-destructive-foreground: #ffffff;
+  --color-muted: #f5f5f7;
+  --color-muted-foreground: #86868b;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  --radius: 0.75rem;
 
-  /* Bento accent colours */
-  --color-bento-red: #ef4444;
-  --color-bento-green: #22c55e;
-  --color-bento-amber: #f59e0b;
-  --color-bento-purple: #a78bfa;
-  --color-bento-rose: #f43f5e;
-  --color-bento-teal: #14b8a6;
-  --color-bento-blue: #3b82f6;
+  /* Bento accent colours (carried over) */
+  --color-bento-red: #ff3b30;
+  --color-bento-green: #34c759;
+  --color-bento-amber: #ff9f0a;
+  --color-bento-purple: #bf5af2;
+  --color-bento-rose: #ff375f;
+  --color-bento-teal: #5ac8fa;
+  --color-bento-blue: #0071e3;
 }
 
 body {
   background: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Animations */
@@ -75,13 +87,14 @@ body {
 }
 
 .status-dot-up {
-  background-color: #22c55e;
-  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
+  background-color: #34c759;
+  box-shadow: 0 0 0 3px rgba(52, 199, 89, 0.2);
 }
 
 .status-dot-down {
-  background-color: #ef4444;
+  background-color: #ff3b30;
   animation: pulse-dot 2s ease-in-out infinite;
+  box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.2);
 }
 
 /* Bento card entrance */
@@ -94,11 +107,6 @@ body {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
 }
 
 .bento-card-enter {
@@ -116,6 +124,24 @@ body {
 
 /* Subtle grid pattern for bento cards */
 .bento-grid-bg {
-  background-image: radial-gradient(circle at 1px 1px, rgba(59,130,246,0.06) 1px, transparent 0);
+  background-image: radial-gradient(circle at 1px 1px, rgba(0,113,227,0.06) 1px, transparent 0);
   background-size: 24px 24px;
+}
+
+/* Apple-style frosted glass */
+.apple-glass {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.72);
+}
+
+.dark .apple-glass {
+  background-color: rgba(28, 28, 30, 0.72);
+}
+
+/* Smooth transitions */
+* {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }

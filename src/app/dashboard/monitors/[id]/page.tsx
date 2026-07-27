@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { StatusDot } from "@/components/dashboard/status-dot";
 import { UptimeStats } from "@/components/dashboard/uptime-stats";
@@ -110,43 +109,39 @@ export default function MonitorDetailPage() {
   if (loading) {
     return (
       <div>
-        {/* Back button */}
         <div className="mb-6">
-          <div className="mb-2 h-8 w-32 animate-pulse rounded bg-muted" />
+          <div className="mb-2 h-8 w-32 animate-pulse rounded-lg bg-[#e5e5ea]" />
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="h-4 w-4 animate-pulse rounded-full bg-muted" />
+              <div className="h-4 w-4 animate-pulse rounded-full bg-[#e5e5ea]" />
               <div>
-                <div className="mb-1 h-7 w-48 animate-pulse rounded bg-muted" />
-                <div className="h-4 w-64 animate-pulse rounded bg-muted" />
+                <div className="mb-1 h-7 w-48 animate-pulse rounded-lg bg-[#e5e5ea]" />
+                <div className="h-4 w-64 animate-pulse rounded-lg bg-[#e5e5ea]" />
               </div>
             </div>
             <div className="flex gap-2">
-              <div className="h-9 w-28 animate-pulse rounded bg-muted" />
-              <div className="h-9 w-20 animate-pulse rounded bg-muted" />
+              <div className="h-9 w-28 animate-pulse rounded-xl bg-[#e5e5ea]" />
+              <div className="h-9 w-20 animate-pulse rounded-xl bg-[#e5e5ea]" />
             </div>
           </div>
         </div>
-        {/* Uptime skeleton */}
-        <div className="mb-6 grid grid-cols-3 gap-4">
+        <div className="mb-6 grid grid-cols-3 gap-3">
           {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="rounded-xl border border-border bg-white p-4 text-center">
-              <div className="mx-auto mb-1 h-8 w-16 animate-pulse rounded bg-muted" />
-              <div className="mx-auto h-3 w-24 animate-pulse rounded bg-muted" />
+            <div key={i} className="rounded-2xl border border-[#e5e5ea] bg-white p-5 text-center">
+              <div className="mx-auto mb-1 h-8 w-16 animate-pulse rounded-lg bg-[#e5e5ea]" />
+              <div className="mx-auto h-3 w-24 animate-pulse rounded-lg bg-[#e5e5ea]" />
             </div>
           ))}
         </div>
-        {/* Chart skeleton */}
-        <div className="mb-6 rounded-xl border border-border bg-white p-6">
-          <div className="mb-4 h-5 w-48 animate-pulse rounded bg-muted" />
-          <div className="h-48 w-full animate-pulse rounded bg-muted" />
+        <div className="mb-6 rounded-2xl border border-[#e5e5ea] bg-white p-6 shadow-sm">
+          <div className="mb-4 h-5 w-48 animate-pulse rounded-lg bg-[#e5e5ea]" />
+          <div className="h-48 w-full animate-pulse rounded-xl bg-[#e5e5ea]" />
         </div>
-        {/* Tabs skeleton */}
         <div className="mb-4 flex gap-2">
-          <div className="h-9 w-32 animate-pulse rounded bg-muted" />
-          <div className="h-9 w-28 animate-pulse rounded bg-muted" />
+          <div className="h-9 w-32 animate-pulse rounded-xl bg-[#e5e5ea]" />
+          <div className="h-9 w-28 animate-pulse rounded-xl bg-[#e5e5ea]" />
         </div>
-        <div className="h-64 w-full animate-pulse rounded-xl bg-muted" />
+        <div className="h-64 w-full animate-pulse rounded-2xl bg-[#e5e5ea]" />
       </div>
     );
   }
@@ -158,11 +153,11 @@ export default function MonitorDetailPage() {
   return (
     <div>
       {/* Header */}
-      <div className="mb-6">
+      <div className="mb-8">
         <Button
           variant="ghost"
           size="sm"
-          className="mb-2"
+          className="mb-3 text-[#86868b]"
           onClick={() => router.push("/dashboard")}
         >
           <ArrowLeft className="mr-1 h-4 w-4" />
@@ -172,10 +167,10 @@ export default function MonitorDetailPage() {
           <div className="flex items-center gap-3">
             <StatusDot isUp={latestCheck?.is_up ?? null} className="h-4 w-4" />
             <div>
-              <h1 className="text-2xl font-bold text-foreground">
+              <h1 className="text-2xl font-semibold tracking-tight text-[#1d1d1f]">
                 {monitor.name}
               </h1>
-              <p className="text-sm text-muted-foreground">{monitor.url}</p>
+              <p className="mt-0.5 text-sm text-[#86868b]">{monitor.url}</p>
             </div>
           </div>
           <div className="flex gap-2">
@@ -184,9 +179,8 @@ export default function MonitorDetailPage() {
               Test Now
             </Button>
             <Button
-              variant="outline"
+              variant="destructive"
               size="sm"
-              className="text-destructive"
               onClick={handleDelete}
             >
               <Trash2 className="mr-1 h-4 w-4" />
@@ -206,16 +200,12 @@ export default function MonitorDetailPage() {
       </div>
 
       {/* Response Time Chart */}
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle className="text-base">
-            Response Time (last 20 checks)
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ResponseTimeChart checks={checks} />
-        </CardContent>
-      </Card>
+      <div className="mb-6 rounded-2xl border border-[#e5e5ea] bg-white p-6 shadow-sm">
+        <h3 className="mb-4 text-sm font-semibold text-[#1d1d1f]">
+          Response Time (last 20 checks)
+        </h3>
+        <ResponseTimeChart checks={checks} />
+      </div>
 
       {/* Tabs: Checks / Incidents */}
       <Tabs defaultValue="checks">
@@ -228,18 +218,14 @@ export default function MonitorDetailPage() {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="checks" className="mt-4">
-          <Card>
-            <CardContent className="p-0">
-              <ChecksTable checks={checks} />
-            </CardContent>
-          </Card>
+          <div className="rounded-2xl border border-[#e5e5ea] bg-white shadow-sm">
+            <ChecksTable checks={checks} />
+          </div>
         </TabsContent>
         <TabsContent value="incidents" className="mt-4">
-          <Card>
-            <CardContent className="p-0">
-              <IncidentsTable incidents={incidents} />
-            </CardContent>
-          </Card>
+          <div className="rounded-2xl border border-[#e5e5ea] bg-white shadow-sm">
+            <IncidentsTable incidents={incidents} />
+          </div>
         </TabsContent>
       </Tabs>
     </div>

@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 interface UptimeStatsProps {
   uptime24h: number | null;
@@ -7,10 +7,10 @@ interface UptimeStatsProps {
 }
 
 function colorClass(value: number | null): string {
-  if (value === null) return "text-foreground";
-  if (value >= 99.9) return "text-success";
-  if (value >= 95) return "text-yellow-500";
-  return "text-destructive";
+  if (value === null) return "text-[#1d1d1f]";
+  if (value >= 99.9) return "text-[#34c759]";
+  if (value >= 95) return "text-[#ff9f0a]";
+  return "text-[#ff3b30]";
 }
 
 export function UptimeStats({ uptime24h, uptime7d, uptime30d }: UptimeStatsProps) {
@@ -21,16 +21,17 @@ export function UptimeStats({ uptime24h, uptime7d, uptime30d }: UptimeStatsProps
   ];
 
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-3 gap-3">
       {stats.map((s) => (
-        <Card key={s.label}>
-          <CardContent className="p-4 text-center">
-            <div className={`text-2xl font-bold ${colorClass(s.value)}`}>
-              {s.value !== null ? `${s.value}%` : "\u2014"}
-            </div>
-            <div className="text-xs text-muted-foreground">{s.label}</div>
-          </CardContent>
-        </Card>
+        <div
+          key={s.label}
+          className="rounded-2xl border border-[#e5e5ea] bg-white p-5 text-center shadow-sm"
+        >
+          <div className={cn("text-3xl font-semibold tracking-tight", colorClass(s.value))}>
+            {s.value !== null ? `${s.value}%` : "\u2014"}
+          </div>
+          <div className="mt-1 text-xs text-[#86868b]">{s.label}</div>
+        </div>
       ))}
     </div>
   );

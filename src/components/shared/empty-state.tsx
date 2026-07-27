@@ -16,10 +16,10 @@ export function EmptyState({
   icon,
 }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center py-16 text-center">
-      {icon && <div className="mb-4 text-muted-foreground">{icon}</div>}
-      <h3 className="text-lg font-semibold text-foreground">{title}</h3>
-      <p className="mt-1 max-w-sm text-sm text-muted-foreground">
+    <div className="flex flex-col items-center justify-center py-20 text-center">
+      {icon && <div className="mb-5 text-[#86868b]">{icon}</div>}
+      <h3 className="text-lg font-semibold text-[#1d1d1f]">{title}</h3>
+      <p className="mt-1.5 max-w-sm text-sm text-[#86868b]">
         {description}
       </p>
       {actionLabel && onAction && (

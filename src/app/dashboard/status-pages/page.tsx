@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/shared/empty-state";
 import { CreateStatusPageModal } from "./create-modal";
@@ -38,19 +37,19 @@ export default function StatusPagesPage() {
   if (loading) {
     return (
       <div>
-        <div className="mb-6">
-          <div className="h-8 w-40 animate-pulse rounded bg-muted" />
-          <div className="mt-1 h-4 w-64 animate-pulse rounded bg-muted" />
+        <div className="mb-8">
+          <div className="h-8 w-48 animate-pulse rounded-lg bg-[#e5e5ea]" />
+          <div className="mt-1.5 h-4 w-72 animate-pulse rounded-lg bg-[#e5e5ea]" />
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="rounded-xl border border-border bg-white p-4">
-              <div className="mb-3 h-5 w-3/4 animate-pulse rounded bg-muted" />
-              <div className="mb-2 h-4 w-1/2 animate-pulse rounded bg-muted" />
-              <div className="mb-4 h-8 w-full animate-pulse rounded bg-muted" />
+            <div key={i} className="rounded-2xl border border-[#e5e5ea] bg-white p-5 shadow-sm">
+              <div className="mb-3 h-5 w-3/4 animate-pulse rounded-lg bg-[#e5e5ea]" />
+              <div className="mb-2 h-4 w-1/2 animate-pulse rounded-lg bg-[#e5e5ea]" />
+              <div className="mb-4 h-8 w-full animate-pulse rounded-lg bg-[#e5e5ea]" />
               <div className="flex gap-2">
-                <div className="h-8 flex-1 animate-pulse rounded bg-muted" />
-                <div className="h-8 w-10 animate-pulse rounded bg-muted" />
+                <div className="h-8 flex-1 animate-pulse rounded-lg bg-[#e5e5ea]" />
+                <div className="h-8 w-10 animate-pulse rounded-lg bg-[#e5e5ea]" />
               </div>
             </div>
           ))}
@@ -61,75 +60,78 @@ export default function StatusPagesPage() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Status Pages</h1>
-          <p className="text-sm text-muted-foreground">
+          <h1 className="text-2xl font-semibold tracking-tight text-[#1d1d1f]">
+            Status Pages
+          </h1>
+          <p className="mt-0.5 text-sm text-[#86868b]">
             Create public status pages to share with your customers
           </p>
         </div>
         <Button onClick={() => setModalOpen(true)}>
-          <FileText className="mr-2 h-4 w-4" />
+          <FileText className="mr-1.5 h-4 w-4" />
           Create Status Page
         </Button>
       </div>
 
       {pages.length === 0 ? (
         <EmptyState
-          icon={<FileText className="h-12 w-12" />}
+          icon={<FileText className="h-12 w-12 text-[#86868b]" />}
           title="No status pages yet"
           description="Create a public status page to keep your customers informed about your services."
           actionLabel="Create Status Page"
           onAction={() => setModalOpen(true)}
         />
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {pages.map((page) => (
-            <Card key={page.id} className="transition-shadow hover:shadow-md">
-              <CardContent className="p-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-foreground">
-                      {page.title}
-                    </h3>
-                    <p className="mt-0.5 text-sm text-muted-foreground">
-                      /status/{page.slug}
-                    </p>
-                  </div>
-                  <Badge variant={page.is_public ? "default" : "secondary"}>
-                    {page.is_public ? "Public" : "Private"}
-                  </Badge>
-                </div>
-                {page.description && (
-                  <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
-                    {page.description}
+            <div
+              key={page.id}
+              className="rounded-2xl border border-[#e5e5ea] bg-white p-5 shadow-sm transition-all duration-200 hover:shadow-md"
+            >
+              <div className="flex items-start justify-between">
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-[#1d1d1f] truncate">
+                    {page.title}
+                  </h3>
+                  <p className="mt-0.5 text-sm text-[#86868b] truncate">
+                    /status/{page.slug}
                   </p>
-                )}
-                <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
-                  <span>{page.monitor_ids?.length ?? 0} monitors linked</span>
                 </div>
-                <div className="mt-3 flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex-1"
-                    onClick={() => copyLink(page.slug)}
-                  >
-                    <Copy className="mr-1 h-3 w-3" />
-                    Copy Link
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() =>
-                      window.open(`/status/${page.slug}`, "_blank")
-                    }
-                  >
-                    <ExternalLink className="h-3 w-3" />
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                <Badge variant={page.is_public ? "default" : "secondary"} className="shrink-0 ml-2">
+                  {page.is_public ? "Public" : "Private"}
+                </Badge>
+              </div>
+              {page.description && (
+                <p className="mt-3 text-sm text-[#86868b] line-clamp-2">
+                  {page.description}
+                </p>
+              )}
+              <div className="mt-3 flex items-center gap-2 text-xs text-[#86868b]">
+                <span>{page.monitor_ids?.length ?? 0} monitors linked</span>
+              </div>
+              <div className="mt-4 flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex-1"
+                  onClick={() => copyLink(page.slug)}
+                >
+                  <Copy className="mr-1 h-3 w-3" />
+                  Copy Link
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() =>
+                    window.open(`/status/${page.slug}`, "_blank")
+                  }
+                >
+                  <ExternalLink className="h-3 w-3" />
+                </Button>
+              </div>
+            </div>
           ))}
         </div>
       )}
