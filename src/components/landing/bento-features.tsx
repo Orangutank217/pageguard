@@ -78,7 +78,7 @@ const features: Feature[] = [
     ),
     content: (
       <div className="mt-3 flex items-center gap-2 text-xs">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-2.5 py-1 font-medium text-red-600">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-2.5 py-1 font-medium text-red-700">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" />
           Active alerts
         </span>
@@ -208,7 +208,7 @@ export function BentoFeatures() {
         {/* Heading */}
         <BentoAnimateIn>
           <div className="mb-14 text-center">
-            <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold tracking-wide text-primary uppercase">
+            <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold tracking-wide text-[#005bbf] uppercase">
               Features
             </span>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">

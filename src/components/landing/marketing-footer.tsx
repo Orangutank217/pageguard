@@ -22,7 +22,7 @@ export function MarketingFooter() {
     <footer className="border-t bg-background px-6 py-8">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 sm:flex-row">
         <div className="flex items-center gap-3 text-sm text-muted-foreground">
-          <PageGuardLogo className="text-sm" />
+          <span className="text-foreground"><PageGuardLogo className="text-sm" /></span>
           <span>&copy; {new Date().getFullYear()} PageGuard. All rights reserved.</span>
         </div>
         <div className="flex items-center gap-6 text-sm text-muted-foreground">

@@ -117,13 +117,13 @@ export default function PricingPage() {
 
         <div className="relative mx-auto max-w-6xl text-center">
           <AnimateIn>
-            <span className="inline-block rounded-full bg-[#0071e3]/10 px-3 py-1 text-xs font-semibold tracking-wide text-[#0071e3] uppercase">
+            <span className="inline-block rounded-full bg-[#0071e3]/10 px-3 py-1 text-xs font-semibold tracking-wide text-[#005bbf] uppercase">
               Pricing
             </span>
             <h1 className="mt-4 text-4xl font-semibold tracking-tight text-[#1d1d1f] sm:text-5xl">
               Simple, transparent pricing
             </h1>
-            <p className="mx-auto mt-3 max-w-2xl text-lg text-[#86868b]">
+            <p className="mx-auto mt-3 max-w-2xl text-lg text-muted-foreground">
               Start free. Upgrade when you need more monitors or faster checks.
               No hidden fees, no surprises.
             </p>
@@ -142,7 +142,7 @@ export default function PricingPage() {
                   className="rounded-xl border border-[#e5e5ea] bg-white p-3 text-center shadow-sm"
                 >
                   <div className="text-sm font-semibold text-[#1d1d1f]">{s.value}</div>
-                  <div className="mt-0.5 text-xs text-[#86868b]">{s.label}</div>
+                  <div className="mt-0.5 text-xs text-muted-foreground">{s.label}</div>
                 </div>
               ))}
             </div>
@@ -151,7 +151,7 @@ export default function PricingPage() {
           {/* Billing toggle */}
           <AnimateIn delay={120}>
             <div className="mt-8 flex items-center justify-center gap-3">
-              <span className={`text-sm font-medium ${!annual ? "text-[#1d1d1f]" : "text-[#86868b]"}`}>
+              <span className={`text-sm font-medium ${!annual ? "text-[#1d1d1f]" : "text-muted-foreground"}`}>
                 Monthly
               </span>
               <button
@@ -170,7 +170,7 @@ export default function PricingPage() {
                   }`}
                 />
               </button>
-              <span className={`text-sm font-medium ${annual ? "text-[#1d1d1f]" : "text-[#86868b]"}`}>
+              <span className={`text-sm font-medium ${annual ? "text-[#1d1d1f]" : "text-muted-foreground"}`}>
                 Annual
               </span>
               {annual && (
@@ -204,16 +204,16 @@ export default function PricingPage() {
                     <span className="text-4xl font-semibold tracking-tight text-[#1d1d1f]">
                       {annual ? plan.annualPrice : plan.monthlyPrice}
                     </span>
-                    <span className="text-sm text-[#86868b]">
+                    <span className="text-sm text-muted-foreground">
                       {annual ? "/mo, billed annually" : "/month"}
                     </span>
                   </div>
                   {annual && plan.annualPrice !== "$0" && (
-                    <p className="mt-0.5 text-xs text-[#86868b]">
+                    <p className="mt-0.5 text-xs text-muted-foreground">
                       ${parseInt(plan.annualPrice) * 12}/year
                     </p>
                   )}
-                  <p className="mt-1.5 text-sm text-[#86868b]">{plan.description}</p>
+                  <p className="mt-1.5 text-sm text-muted-foreground">{plan.description}</p>
 
                   <ul className="mt-6 space-y-2.5">
                     {plan.features.map((f) => (
@@ -244,13 +244,13 @@ export default function PricingPage() {
         <div className="mx-auto max-w-4xl">
           <AnimateIn>
             <div className="text-center">
-              <span className="inline-block rounded-full bg-[#0071e3]/10 px-3 py-1 text-xs font-semibold tracking-wide text-[#0071e3] uppercase">
+              <span className="inline-block rounded-full bg-[#0071e3]/10 px-3 py-1 text-xs font-semibold tracking-wide text-[#005bbf] uppercase">
                 Comparison
               </span>
               <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#1d1d1f] sm:text-4xl">
                 Compare plans side by side
               </h2>
-              <p className="mx-auto mt-3 max-w-2xl text-lg text-[#86868b]">
+              <p className="mx-auto mt-3 max-w-2xl text-lg text-muted-foreground">
                 Everything you need to know before choosing your plan.
               </p>
             </div>
@@ -260,13 +260,13 @@ export default function PricingPage() {
             <div className="mt-12 overflow-hidden rounded-2xl border border-[#e5e5ea] bg-white shadow-sm">
               {/* Header */}
               <div className="grid grid-cols-3 gap-0 border-b border-[#e5e5ea] bg-[#f5f5f7]">
-                <div className="px-6 py-4 text-left text-sm font-semibold text-[#86868b]">
+                <div className="px-6 py-4 text-left text-sm font-semibold text-muted-foreground">
                   Feature
                 </div>
                 <div className="px-6 py-4 text-center text-sm font-semibold text-[#1d1d1f]">
                   Free
                 </div>
-                <div className="px-6 py-4 text-center text-sm font-semibold text-[#0071e3]">
+                <div className="px-6 py-4 text-center text-sm font-semibold text-[#005bbf]">
                   Pro
                 </div>
               </div>
@@ -281,7 +281,7 @@ export default function PricingPage() {
                   <div className="px-6 py-4 text-left text-sm font-medium text-[#1d1d1f]">
                     {row.label}
                   </div>
-                  <div className="flex items-center justify-center px-6 py-4 text-sm text-[#86868b]">
+                  <div className="flex items-center justify-center px-6 py-4 text-sm text-muted-foreground">
                     {row.free === true ? <CheckIcon /> : row.free === false ? <MinusIcon /> : row.free}
                   </div>
                   <div className="flex items-center justify-center px-6 py-4 text-sm font-medium text-[#1d1d1f]">
@@ -299,13 +299,13 @@ export default function PricingPage() {
         <div className="mx-auto max-w-3xl">
           <AnimateIn>
             <div className="text-center">
-              <span className="inline-block rounded-full bg-[#0071e3]/10 px-3 py-1 text-xs font-semibold tracking-wide text-[#0071e3] uppercase">
+              <span className="inline-block rounded-full bg-[#0071e3]/10 px-3 py-1 text-xs font-semibold tracking-wide text-[#005bbf] uppercase">
                 FAQ
               </span>
               <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#1d1d1f] sm:text-4xl">
                 Frequently asked questions
               </h2>
-              <p className="mx-auto mt-3 max-w-2xl text-lg text-[#86868b]">
+              <p className="mx-auto mt-3 max-w-2xl text-lg text-muted-foreground">
                 Everything you need to know about our pricing and billing.
               </p>
             </div>
@@ -321,7 +321,7 @@ export default function PricingPage() {
                   <summary className="flex cursor-pointer items-center justify-between px-5 py-4 text-sm font-medium text-[#1d1d1f]">
                     <span>{faq.q}</span>
                     <svg
-                      className="ml-2 h-4 w-4 shrink-0 text-[#86868b] transition-transform duration-200 group-open:rotate-180"
+                      className="ml-2 h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-180"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -330,7 +330,7 @@ export default function PricingPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                     </svg>
                   </summary>
-                  <div className="border-t border-[#e5e5ea] px-5 py-4 text-sm leading-relaxed text-[#86868b]">
+                  <div className="border-t border-[#e5e5ea] px-5 py-4 text-sm leading-relaxed text-muted-foreground">
                     {faq.a}
                   </div>
                 </details>
@@ -347,7 +347,7 @@ export default function PricingPage() {
             <h2 className="text-3xl font-semibold tracking-tight text-[#1d1d1f] sm:text-4xl">
               Start monitoring in 30 seconds
             </h2>
-            <p className="mt-4 text-lg text-[#86868b]">
+            <p className="mt-4 text-lg text-muted-foreground">
               Add your first URL, choose your check interval, and we&apos;ll alert
               you if it ever goes down.
             </p>
@@ -362,7 +362,7 @@ export default function PricingPage() {
               </Link>
               <Link
                 href="/"
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-[#86868b] transition-colors hover:text-[#1d1d1f]"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-[#1d1d1f]"
               >
                 Learn more about features
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">

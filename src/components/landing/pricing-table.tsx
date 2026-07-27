@@ -49,13 +49,13 @@ export function PricingTable() {
       <div className="mx-auto max-w-6xl">
         <AnimateIn>
           <div className="text-center">
-            <span className="inline-block rounded-full bg-[#0071e3]/10 px-3 py-1 text-xs font-semibold tracking-wide text-[#0071e3] uppercase">
+            <span className="inline-block rounded-full bg-[#0071e3]/10 px-3 py-1 text-xs font-semibold tracking-wide text-[#005bbf] uppercase">
               Pricing
             </span>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#1d1d1f] sm:text-4xl">
               Simple, transparent pricing
             </h2>
-            <p className="mx-auto mt-3 max-w-2xl text-lg text-[#86868b]">
+            <p className="mx-auto mt-3 max-w-2xl text-lg text-muted-foreground">
               Start free. Upgrade when you need more monitors or faster checks.
             </p>
           </div>
@@ -74,7 +74,7 @@ export function PricingTable() {
                 className="rounded-xl border border-[#e5e5ea] bg-white p-3 text-center shadow-sm"
               >
                 <div className="text-sm font-semibold text-[#1d1d1f]">{stat.value}</div>
-                <div className="mt-0.5 text-xs text-[#86868b]">{stat.label}</div>
+                <div className="mt-0.5 text-xs text-muted-foreground">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -103,9 +103,9 @@ export function PricingTable() {
                   <span className="text-4xl font-semibold tracking-tight text-[#1d1d1f]">
                     {plan.price}
                   </span>
-                  <span className="text-sm text-[#86868b]">/month</span>
+                  <span className="text-sm text-muted-foreground">/month</span>
                 </div>
-                <p className="mt-1.5 text-sm text-[#86868b]">{plan.description}</p>
+                <p className="mt-1.5 text-sm text-muted-foreground">{plan.description}</p>
 
                 <ul className="mt-6 space-y-2.5">
                   {plan.features.map((f) => (
@@ -134,7 +134,7 @@ export function PricingTable() {
           <div className="mt-10 text-center">
             <Link
               href="/pricing"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-[#0071e3] transition-colors hover:text-[#0077ed]"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-[#005bbf] transition-colors hover:text-[#005bbf]"
             >
               View full pricing details
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">

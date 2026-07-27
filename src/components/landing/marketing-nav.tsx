@@ -14,12 +14,21 @@ const navLinks = [
 
 export function MarketingNav() {
   const [scrolled, setScrolled] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Prevent focus leaking out of the mobile sheet when open
+  useEffect(() => {
+    const appContent = document.getElementById("app-content");
+    if (appContent) {
+      appContent.inert = sheetOpen;
+    }
+  }, [sheetOpen]);
 
   return (
     <nav
@@ -55,7 +64,7 @@ export function MarketingNav() {
         </div>
 
         {/* Mobile hamburger */}
-        <Sheet>
+        <Sheet onOpenChange={setSheetOpen}>
           <SheetTrigger
             className="flex sm:hidden"
             aria-label="Open navigation menu"

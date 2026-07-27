@@ -9,8 +9,10 @@ export default function MarketingLayout({
   return (
     <>
       <MarketingNav />
-      <main className="flex-1">{children}</main>
-      <MarketingFooter />
+      <div id="app-content">
+        <main className="flex-1">{children}</main>
+        <MarketingFooter />
+      </div>
     </>
   );
 }
