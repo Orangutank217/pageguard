@@ -16,6 +16,15 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, monospace;
   --radius: 0.5rem;
+
+  /* Bento accent colours */
+  --color-bento-red: #ef4444;
+  --color-bento-green: #22c55e;
+  --color-bento-amber: #f59e0b;
+  --color-bento-purple: #a78bfa;
+  --color-bento-rose: #f43f5e;
+  --color-bento-teal: #14b8a6;
+  --color-bento-blue: #3b82f6;
 }
 
 body {
@@ -73,4 +82,40 @@ body {
 .status-dot-down {
   background-color: #ef4444;
   animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* Bento card entrance */
+@keyframes bento-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.bento-card-enter {
+  animation: bento-card-in 0.5s ease-out forwards;
+}
+
+/* Bento card accent borders */
+.bento-accent-red    { border-top: 3px solid var(--color-bento-red); }
+.bento-accent-green  { border-top: 3px solid var(--color-bento-green); }
+.bento-accent-amber  { border-top: 3px solid var(--color-bento-amber); }
+.bento-accent-purple { border-top: 3px solid var(--color-bento-purple); }
+.bento-accent-rose   { border-top: 3px solid var(--color-bento-rose); }
+.bento-accent-teal   { border-top: 3px solid var(--color-bento-teal); }
+.bento-accent-blue   { border-top: 3px solid var(--color-bento-blue); }
+
+/* Subtle grid pattern for bento cards */
+.bento-grid-bg {
+  background-image: radial-gradient(circle at 1px 1px, rgba(59,130,246,0.06) 1px, transparent 0);
+  background-size: 24px 24px;
 }

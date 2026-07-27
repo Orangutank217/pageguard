@@ -49,7 +49,7 @@ const comparisonRows = [
   { label: "Email alerts", free: true, pro: true },
   { label: "Status pages", free: "1", pro: "Unlimited" },
   { label: "PageGuard branding", free: true, pro: false },
-  { label: "Custom domain", free: "—", pro: "Coming soon" },
+  { label: "Custom domain", free: "\u2014", pro: "Coming soon" },
   { label: "Checks stored per monitor", free: "50", pro: "1,000" },
   { label: "Historical data", free: "7 days", pro: "90 days" },
   { label: "Team members", free: "1", pro: "Up to 5" },
@@ -103,7 +103,7 @@ export default function PricingPage() {
 
   return (
     <>
-      {/* Hero */}
+      {/* ─────────────── Hero ─────────────── */}
       <section className="animate-gradient relative overflow-hidden bg-gradient-to-b from-primary/20 via-primary/5 to-background px-6 pb-20 pt-16 sm:pb-28 sm:pt-20">
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.03]"
@@ -113,18 +113,46 @@ export default function PricingPage() {
             backgroundSize: "60px 60px",
           }}
         />
+
+        {/* Decorative blobs */}
+        <div className="pointer-events-none absolute -top-32 -left-32 h-96 w-96 rounded-full bg-primary/5 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-40 -right-32 h-80 w-80 rounded-full bg-blue-400/5 blur-3xl" />
+
         <div className="relative mx-auto max-w-6xl text-center">
           <AnimateIn>
-            <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+            <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold tracking-wide text-primary uppercase">
+              Pricing
+            </span>
+            <h1 className="mt-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
               Simple, transparent pricing
             </h1>
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+            <p className="mx-auto mt-3 max-w-2xl text-lg text-muted-foreground">
               Start free. Upgrade when you need more monitors or faster checks.
               No hidden fees, no surprises.
             </p>
           </AnimateIn>
 
-          <AnimateIn delay={100}>
+          {/* Stats row — bento style */}
+          <AnimateIn delay={80}>
+            <div className="mx-auto mt-10 grid max-w-2xl grid-cols-3 gap-3">
+              {[
+                { value: "10K+", label: "Checks daily" },
+                { value: "99.9%", label: "Avg. uptime" },
+                { value: "30 day", label: "Money back" },
+              ].map((s) => (
+                <div
+                  key={s.label}
+                  className="rounded-xl border border-border/50 bg-white/60 p-3 text-center backdrop-blur-sm transition-all duration-200 hover:border-border hover:bg-white hover:shadow-sm"
+                >
+                  <div className="text-lg font-bold text-foreground">{s.value}</div>
+                  <div className="text-xs text-muted-foreground">{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </AnimateIn>
+
+          {/* Billing toggle */}
+          <AnimateIn delay={120}>
             <div className="mt-8 flex items-center justify-center gap-3">
               <span className={`text-sm font-medium ${!annual ? "text-foreground" : "text-muted-foreground"}`}>
                 Monthly
@@ -156,22 +184,31 @@ export default function PricingPage() {
             </div>
           </AnimateIn>
 
-          {/* Plan cards */}
+          {/* Plan cards — bento style */}
           <div className="mx-auto mt-10 grid max-w-3xl gap-8 sm:grid-cols-2">
             {plans.map((plan, i) => (
               <AnimateIn key={plan.name} delay={200 + 100 * i}>
                 <div
-                  className={`group relative rounded-xl border p-6 text-left transition-all duration-200 ${
+                  className={`group relative overflow-hidden rounded-xl border p-6 text-left transition-all duration-300 ${
                     plan.featured
-                      ? "border-primary/30 bg-white shadow-lg shadow-primary/5 ring-1 ring-primary/10 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10"
-                      : "border-border bg-white hover:-translate-y-1 hover:border-border/80 hover:shadow-lg"
+                      ? "bento-accent-blue border-primary/20 bg-white shadow-lg shadow-primary/5 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10"
+                      : "bento-accent-teal border-border bg-white hover:-translate-y-1 hover:border-border/80 hover:shadow-lg"
                   }`}
                 >
+                  {/* Corner decoration */}
+                  <div
+                    className="pointer-events-none absolute -top-10 -right-10 h-20 w-20 rounded-full opacity-[0.04]"
+                    style={{
+                      background: `radial-gradient(circle, ${plan.featured ? "#3b82f6" : "#14b8a6"}, transparent 70%)`,
+                    }}
+                  />
+
                   {plan.featured && (
-                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-0.5 text-xs font-medium text-primary-foreground">
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-primary to-blue-400 px-3 py-0.5 text-xs font-medium text-primary-foreground shadow-sm">
                       Popular
                     </span>
                   )}
+
                   <h3 className="text-xl font-bold text-foreground">{plan.name}</h3>
                   <div className="mt-3 flex items-baseline gap-1">
                     <span className="text-4xl font-bold text-foreground">
@@ -187,6 +224,7 @@ export default function PricingPage() {
                     </p>
                   )}
                   <p className="mt-2 text-sm text-muted-foreground">{plan.description}</p>
+
                   <ul className="mt-6 space-y-3">
                     {plan.features.map((f) => (
                       <li key={f} className="flex items-start gap-3 text-sm">
@@ -195,6 +233,7 @@ export default function PricingPage() {
                       </li>
                     ))}
                   </ul>
+
                   <Link href={plan.href} className="mt-6 block">
                     <Button
                       className="w-full transition-all group-hover:shadow-md"
@@ -210,22 +249,27 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* Feature comparison table */}
+      {/* ─────────────── Feature comparison table — bento card ─────────────── */}
       <section className="bg-background px-6 py-20 sm:py-28">
         <div className="mx-auto max-w-4xl">
           <AnimateIn>
-            <h2 className="text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Compare plans side by side
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-center text-lg text-muted-foreground">
-              Everything you need to know before choosing your plan.
-            </p>
+            <div className="text-center">
+              <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold tracking-wide text-primary uppercase">
+                Comparison
+              </span>
+              <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                Compare plans side by side
+              </h2>
+              <p className="mx-auto mt-3 max-w-2xl text-lg text-muted-foreground">
+                Everything you need to know before choosing your plan.
+              </p>
+            </div>
           </AnimateIn>
 
           <AnimateIn delay={150}>
-            <div className="mt-12 overflow-hidden rounded-xl border border-border">
+            <div className="mt-12 overflow-hidden rounded-xl border border-border bg-white shadow-sm">
               {/* Header */}
-              <div className="grid grid-cols-3 gap-0 bg-muted/50">
+              <div className="grid grid-cols-3 gap-0 bg-gradient-to-r from-muted/80 to-muted/30">
                 <div className="px-6 py-4 text-left text-sm font-semibold text-muted-foreground">
                   Feature
                 </div>
@@ -240,17 +284,17 @@ export default function PricingPage() {
               {comparisonRows.map((row, i) => (
                 <div
                   key={row.label}
-                  className={`grid grid-cols-3 gap-0 ${
-                    i % 2 === 0 ? "bg-white" : "bg-muted/20"
+                  className={`grid grid-cols-3 gap-0 transition-colors hover:bg-muted/30 ${
+                    i % 2 === 0 ? "bg-white" : "bg-muted/10"
                   }`}
                 >
-                  <div className="px-6 py-4 text-left text-sm text-foreground">
+                  <div className="px-6 py-4 text-left text-sm font-medium text-foreground">
                     {row.label}
                   </div>
                   <div className="flex items-center justify-center px-6 py-4 text-sm text-muted-foreground">
                     {row.free === true ? <CheckIcon /> : row.free === false ? <MinusIcon /> : row.free}
                   </div>
-                  <div className="flex items-center justify-center px-6 py-4 text-sm text-foreground">
+                  <div className="flex items-center justify-center px-6 py-4 text-sm font-medium text-foreground">
                     {row.pro === true ? <CheckIcon /> : row.pro === false ? <MinusIcon /> : row.pro}
                   </div>
                 </div>
@@ -260,16 +304,21 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* FAQ */}
+      {/* ─────────────── FAQ — bento accordion ─────────────── */}
       <section className="bg-muted/30 px-6 py-20 sm:py-28">
         <div className="mx-auto max-w-3xl">
           <AnimateIn>
-            <h2 className="text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Frequently asked questions
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-center text-lg text-muted-foreground">
-              Everything you need to know about our pricing and billing.
-            </p>
+            <div className="text-center">
+              <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold tracking-wide text-primary uppercase">
+                FAQ
+              </span>
+              <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                Frequently asked questions
+              </h2>
+              <p className="mx-auto mt-3 max-w-2xl text-lg text-muted-foreground">
+                Everything you need to know about our pricing and billing.
+              </p>
+            </div>
           </AnimateIn>
 
           <AnimateIn delay={150}>
@@ -277,10 +326,10 @@ export default function PricingPage() {
               {faqs.map((faq) => (
                 <details
                   key={faq.q}
-                  className="group cursor-pointer rounded-xl border border-border bg-white transition-all hover:border-border/80"
+                  className="group overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-all duration-200 hover:border-border/80 hover:shadow-md"
                 >
-                  <summary className="flex items-center justify-between px-6 py-4 text-sm font-medium text-foreground">
-                    {faq.q}
+                  <summary className="bento-accent-blue flex cursor-pointer items-center justify-between px-6 py-4 text-sm font-medium text-foreground">
+                    <span>{faq.q}</span>
                     <svg
                       className="ml-2 h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-180"
                       fill="none"
@@ -301,25 +350,41 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="bg-primary px-6 py-20 sm:py-28">
+      {/* ─────────────── CTA ─────────────── */}
+      <section className="relative overflow-hidden bg-primary px-6 py-20 sm:py-28">
+        {/* Decorative bento elements */}
+        <div className="pointer-events-none absolute -left-20 -top-20 h-40 w-40 rounded-full bg-primary-foreground/[0.04] blur-2xl" />
+        <div className="pointer-events-none absolute -bottom-20 -right-20 h-40 w-40 rounded-full bg-primary-foreground/[0.04] blur-2xl" />
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-60 w-60 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-foreground/[0.02] blur-3xl" />
+
         <AnimateIn>
-          <div className="mx-auto max-w-3xl text-center">
+          <div className="relative mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-bold tracking-tight text-primary-foreground sm:text-4xl">
               Start monitoring in 30 seconds
             </h2>
             <p className="mt-4 text-lg text-primary-foreground/80">
               No credit card required. Upgrade anytime.
             </p>
-            <Link href="/auth/signup">
-              <Button
-                size="lg"
-                variant="secondary"
-                className="mt-8 px-8 text-base shadow-lg transition-all hover:shadow-xl"
+            <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Link href="/auth/signup">
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  className="px-8 text-base shadow-lg transition-all hover:shadow-xl"
+                >
+                  Get Started Free
+                </Button>
+              </Link>
+              <Link
+                href="/#features"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary-foreground/70 transition-colors hover:text-primary-foreground"
               >
-                Get Started Free
-              </Button>
-            </Link>
+                Learn more about features
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </div>
           </div>
         </AnimateIn>
       </section>

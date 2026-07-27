@@ -40,35 +40,69 @@ export function PricingTable() {
     <section className="bg-muted/30 px-6 py-20 sm:py-28">
       <div className="mx-auto max-w-6xl">
         <AnimateIn>
-          <h2 className="text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Simple, transparent pricing
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-lg text-muted-foreground">
-            Start free. Upgrade when you need more monitors or faster checks.
-          </p>
+          <div className="text-center">
+            <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold tracking-wide text-primary uppercase">
+              Pricing
+            </span>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+              Simple, transparent pricing
+            </h2>
+            <p className="mx-auto mt-3 max-w-2xl text-lg text-muted-foreground">
+              Start free. Upgrade when you need more monitors or faster checks.
+            </p>
+          </div>
         </AnimateIn>
 
-        <div className="mt-10 grid gap-8 sm:mx-auto sm:max-w-3xl sm:grid-cols-2">
-          {plans.map((plan, i) => (
-            <AnimateIn key={plan.name} delay={100 + 100 * i}>
+        {/* Stats row */}
+        <AnimateIn delay={80}>
+          <div className="mx-auto mt-10 grid max-w-3xl grid-cols-3 gap-3">
+            {[
+              { label: "Free plan", value: "Always" },
+              { label: "Pro starting at", value: "$9/mo" },
+              { label: "Money-back", value: "30 days" },
+            ].map((stat) => (
               <div
-                className={`group relative rounded-xl border p-6 transition-all duration-200 ${
+                key={stat.label}
+                className="rounded-xl border border-border/60 bg-white/50 p-3 text-center transition-all duration-200 hover:border-border hover:bg-white hover:shadow-sm"
+              >
+                <div className="text-sm font-semibold text-foreground">{stat.value}</div>
+                <div className="text-xs text-muted-foreground">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </AnimateIn>
+
+        <div className="mt-8 grid gap-8 sm:mx-auto sm:max-w-3xl sm:grid-cols-2">
+          {plans.map((plan, i) => (
+            <AnimateIn key={plan.name} delay={150 + 100 * i}>
+              <div
+                className={`group relative overflow-hidden rounded-xl border p-6 transition-all duration-300 ${
                   plan.featured
-                    ? "border-primary/30 bg-white shadow-lg shadow-primary/5 ring-1 ring-primary/10 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10"
-                    : "border-border bg-white hover:-translate-y-1 hover:border-border/80 hover:shadow-lg"
+                    ? "bento-accent-blue border-primary/20 bg-white shadow-lg shadow-primary/5 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10"
+                    : "bento-accent-teal border-border bg-white hover:-translate-y-1 hover:border-border/80 hover:shadow-lg"
                 }`}
               >
+                {/* Decorative corner */}
+                <div
+                  className="pointer-events-none absolute -top-10 -right-10 h-20 w-20 rounded-full opacity-[0.04]"
+                  style={{
+                    background: `radial-gradient(circle, ${plan.featured ? "#3b82f6" : "#14b8a6"}, transparent 70%)`,
+                  }}
+                />
+
                 {plan.featured && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-0.5 text-xs font-medium text-primary-foreground">
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-primary to-blue-400 px-3 py-0.5 text-xs font-medium text-primary-foreground shadow-sm">
                     Popular
                   </span>
                 )}
+
                 <h3 className="text-xl font-bold text-foreground">{plan.name}</h3>
                 <div className="mt-3 flex items-baseline gap-1">
                   <span className="text-4xl font-bold text-foreground">{plan.price}</span>
                   <span className="text-muted-foreground">/month</span>
                 </div>
                 <p className="mt-2 text-sm text-muted-foreground">{plan.description}</p>
+
                 <ul className="mt-6 space-y-3">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-3 text-sm">
@@ -85,6 +119,7 @@ export function PricingTable() {
                     </li>
                   ))}
                 </ul>
+
                 <Link href={plan.href} className="mt-6 block">
                   <Button
                     className="w-full transition-all group-hover:shadow-md"

@@ -59,6 +59,25 @@ export function Hero() {
           </p>
         </AnimateIn>
 
+        {/* Stats bar — bento style */}
+        <AnimateIn delay={500}>
+          <div className="mx-auto mt-10 grid max-w-lg grid-cols-3 gap-3">
+            {[
+              { value: "10K+", label: "Checks daily" },
+              { value: "99.9%", label: "Avg. uptime" },
+              { value: "30 day", label: "Money back" },
+            ].map((s) => (
+              <div
+                key={s.label}
+                className="rounded-xl border border-border/40 bg-white/50 p-3 text-center backdrop-blur-sm transition-all duration-200 hover:border-border/60 hover:bg-white/80 hover:shadow-sm"
+              >
+                <div className="text-lg font-bold text-foreground">{s.value}</div>
+                <div className="text-xs text-muted-foreground">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </AnimateIn>
+
         <AnimateIn delay={600}>
           <div className="relative mx-auto mt-14 max-w-4xl">
             <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-primary/30 via-primary/10 to-blue-400/30 opacity-50 blur-xl" />
