@@ -199,7 +199,7 @@ export default function PricingPage() {
                     </span>
                   )}
 
-                  <h3 className="text-lg font-semibold text-[#1d1d1f]">{plan.name}</h3>
+                  <h2 className="text-lg font-semibold text-[#1d1d1f]">{plan.name}</h2>
                   <div className="mt-3 flex items-baseline gap-1">
                     <span className="text-4xl font-semibold tracking-tight text-[#1d1d1f]">
                       {annual ? plan.annualPrice : plan.monthlyPrice}
