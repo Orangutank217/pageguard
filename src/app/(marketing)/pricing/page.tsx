@@ -55,9 +55,9 @@ const comparisonRows = [
   { label: "Team members", free: "1", pro: "Up to 5" },
 ];
 
-function CheckIcon() {
+function CheckIcon({ className }: { className?: string }) {
   return (
-    <svg className="h-4 w-4 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+    <svg className={className ?? "h-4 w-4 shrink-0 text-[#34c759]"} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
     </svg>
   );
@@ -65,7 +65,7 @@ function CheckIcon() {
 
 function MinusIcon() {
   return (
-    <svg className="h-4 w-4 text-muted-foreground/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+    <svg className="h-4 w-4 shrink-0 text-[#c7c7cc]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
       <path strokeLinecap="round" strokeLinejoin="round" d="M20 12H4" />
     </svg>
   );
@@ -104,37 +104,34 @@ export default function PricingPage() {
   return (
     <>
       {/* ─────────────── Hero ─────────────── */}
-      <section className="animate-gradient relative overflow-hidden bg-gradient-to-b from-primary/20 via-primary/5 to-background px-6 pb-20 pt-16 sm:pb-28 sm:pt-20">
+      <section className="relative overflow-hidden bg-[#f5f5f7] px-6 pb-20 pt-16 sm:pb-28 sm:pt-20">
+        {/* Subtle grid */}
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.03]"
+          className="pointer-events-none absolute inset-0 opacity-[0.02]"
           style={{
             backgroundImage:
-              "linear-gradient(#0f172a 1px, transparent 1px), linear-gradient(90deg, #0f172a 1px, transparent 1px)",
+              "linear-gradient(#1d1d1f 1px, transparent 1px), linear-gradient(90deg, #1d1d1f 1px, transparent 1px)",
             backgroundSize: "60px 60px",
           }}
         />
 
-        {/* Decorative blobs */}
-        <div className="pointer-events-none absolute -top-32 -left-32 h-96 w-96 rounded-full bg-primary/5 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-40 -right-32 h-80 w-80 rounded-full bg-blue-400/5 blur-3xl" />
-
         <div className="relative mx-auto max-w-6xl text-center">
           <AnimateIn>
-            <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold tracking-wide text-primary uppercase">
+            <span className="inline-block rounded-full bg-[#0071e3]/10 px-3 py-1 text-xs font-semibold tracking-wide text-[#0071e3] uppercase">
               Pricing
             </span>
-            <h1 className="mt-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+            <h1 className="mt-4 text-4xl font-semibold tracking-tight text-[#1d1d1f] sm:text-5xl">
               Simple, transparent pricing
             </h1>
-            <p className="mx-auto mt-3 max-w-2xl text-lg text-muted-foreground">
+            <p className="mx-auto mt-3 max-w-2xl text-lg text-[#86868b]">
               Start free. Upgrade when you need more monitors or faster checks.
               No hidden fees, no surprises.
             </p>
           </AnimateIn>
 
-          {/* Stats row — bento style */}
+          {/* Stats row */}
           <AnimateIn delay={80}>
-            <div className="mx-auto mt-10 grid max-w-2xl grid-cols-3 gap-3">
+            <div className="mx-auto mt-10 grid max-w-lg grid-cols-3 gap-2">
               {[
                 { value: "10K+", label: "Checks daily" },
                 { value: "99.9%", label: "Avg. uptime" },
@@ -142,10 +139,10 @@ export default function PricingPage() {
               ].map((s) => (
                 <div
                   key={s.label}
-                  className="rounded-xl border border-border/50 bg-white/60 p-3 text-center backdrop-blur-sm transition-all duration-200 hover:border-border hover:bg-white hover:shadow-sm"
+                  className="rounded-xl border border-[#e5e5ea] bg-white p-3 text-center shadow-sm"
                 >
-                  <div className="text-lg font-bold text-foreground">{s.value}</div>
-                  <div className="text-xs text-muted-foreground">{s.label}</div>
+                  <div className="text-sm font-semibold text-[#1d1d1f]">{s.value}</div>
+                  <div className="mt-0.5 text-xs text-[#86868b]">{s.label}</div>
                 </div>
               ))}
             </div>
@@ -154,7 +151,7 @@ export default function PricingPage() {
           {/* Billing toggle */}
           <AnimateIn delay={120}>
             <div className="mt-8 flex items-center justify-center gap-3">
-              <span className={`text-sm font-medium ${!annual ? "text-foreground" : "text-muted-foreground"}`}>
+              <span className={`text-sm font-medium ${!annual ? "text-[#1d1d1f]" : "text-[#86868b]"}`}>
                 Monthly
               </span>
               <button
@@ -164,7 +161,7 @@ export default function PricingPage() {
                 aria-label="Toggle annual billing"
                 onClick={() => setAnnual(!annual)}
                 className={`relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors duration-200 ${
-                  annual ? "bg-primary" : "bg-input"
+                  annual ? "bg-[#0071e3]" : "bg-[#e5e5ea]"
                 }`}
               >
                 <span
@@ -173,61 +170,54 @@ export default function PricingPage() {
                   }`}
                 />
               </button>
-              <span className={`text-sm font-medium ${annual ? "text-foreground" : "text-muted-foreground"}`}>
+              <span className={`text-sm font-medium ${annual ? "text-[#1d1d1f]" : "text-[#86868b]"}`}>
                 Annual
               </span>
               {annual && (
-                <span className="rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-green-700">
+                <span className="rounded-full bg-[#34c759]/10 px-2.5 py-0.5 text-xs font-semibold text-[#34c759]">
                   Save 20%
                 </span>
               )}
             </div>
           </AnimateIn>
 
-          {/* Plan cards — bento style */}
-          <div className="mx-auto mt-10 grid max-w-3xl gap-8 sm:grid-cols-2">
+          {/* Plan cards */}
+          <div className="mx-auto mt-10 grid max-w-3xl gap-4 sm:grid-cols-2">
             {plans.map((plan, i) => (
               <AnimateIn key={plan.name} delay={200 + 100 * i}>
                 <div
-                  className={`group relative overflow-hidden rounded-xl border p-6 text-left transition-all duration-300 ${
+                  className={`relative rounded-2xl border p-6 text-left transition-all duration-200 ${
                     plan.featured
-                      ? "bento-accent-blue border-primary/20 bg-white shadow-lg shadow-primary/5 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10"
-                      : "bento-accent-teal border-border bg-white hover:-translate-y-1 hover:border-border/80 hover:shadow-lg"
+                      ? "border-[#0071e3]/20 bg-white shadow-md"
+                      : "border-[#e5e5ea] bg-white shadow-sm"
                   }`}
                 >
-                  {/* Corner decoration */}
-                  <div
-                    className="pointer-events-none absolute -top-10 -right-10 h-20 w-20 rounded-full opacity-[0.04]"
-                    style={{
-                      background: `radial-gradient(circle, ${plan.featured ? "#3b82f6" : "#14b8a6"}, transparent 70%)`,
-                    }}
-                  />
-
+                  {/* Popular badge */}
                   {plan.featured && (
-                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-primary to-blue-400 px-3 py-0.5 text-xs font-medium text-primary-foreground shadow-sm">
+                    <span className="absolute -top-2.5 left-6 rounded-full bg-[#0071e3] px-3 py-0.5 text-[11px] font-medium text-white shadow-sm">
                       Popular
                     </span>
                   )}
 
-                  <h3 className="text-xl font-bold text-foreground">{plan.name}</h3>
+                  <h3 className="text-lg font-semibold text-[#1d1d1f]">{plan.name}</h3>
                   <div className="mt-3 flex items-baseline gap-1">
-                    <span className="text-4xl font-bold text-foreground">
+                    <span className="text-4xl font-semibold tracking-tight text-[#1d1d1f]">
                       {annual ? plan.annualPrice : plan.monthlyPrice}
                     </span>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-sm text-[#86868b]">
                       {annual ? "/mo, billed annually" : "/month"}
                     </span>
                   </div>
                   {annual && plan.annualPrice !== "$0" && (
-                    <p className="mt-0.5 text-xs text-muted-foreground">
+                    <p className="mt-0.5 text-xs text-[#86868b]">
                       ${parseInt(plan.annualPrice) * 12}/year
                     </p>
                   )}
-                  <p className="mt-2 text-sm text-muted-foreground">{plan.description}</p>
+                  <p className="mt-1.5 text-sm text-[#86868b]">{plan.description}</p>
 
-                  <ul className="mt-6 space-y-3">
+                  <ul className="mt-6 space-y-2.5">
                     {plan.features.map((f) => (
-                      <li key={f} className="flex items-start gap-3 text-sm">
+                      <li key={f} className="flex items-center gap-3 text-sm text-[#1d1d1f]">
                         <CheckIcon />
                         {f}
                       </li>
@@ -236,7 +226,7 @@ export default function PricingPage() {
 
                   <Link href={plan.href} className="mt-6 block">
                     <Button
-                      className="w-full transition-all group-hover:shadow-md"
+                      className="w-full"
                       variant={plan.featured ? "default" : "outline"}
                     >
                       {plan.cta}
@@ -249,34 +239,34 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* ─────────────── Feature comparison table — bento card ─────────────── */}
-      <section className="bg-background px-6 py-20 sm:py-28">
+      {/* ─────────────── Feature comparison table ─────────────── */}
+      <section className="bg-white px-6 py-20 sm:py-28">
         <div className="mx-auto max-w-4xl">
           <AnimateIn>
             <div className="text-center">
-              <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold tracking-wide text-primary uppercase">
+              <span className="inline-block rounded-full bg-[#0071e3]/10 px-3 py-1 text-xs font-semibold tracking-wide text-[#0071e3] uppercase">
                 Comparison
               </span>
-              <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#1d1d1f] sm:text-4xl">
                 Compare plans side by side
               </h2>
-              <p className="mx-auto mt-3 max-w-2xl text-lg text-muted-foreground">
+              <p className="mx-auto mt-3 max-w-2xl text-lg text-[#86868b]">
                 Everything you need to know before choosing your plan.
               </p>
             </div>
           </AnimateIn>
 
           <AnimateIn delay={150}>
-            <div className="mt-12 overflow-hidden rounded-xl border border-border bg-white shadow-sm">
+            <div className="mt-12 overflow-hidden rounded-2xl border border-[#e5e5ea] bg-white shadow-sm">
               {/* Header */}
-              <div className="grid grid-cols-3 gap-0 bg-gradient-to-r from-muted/80 to-muted/30">
-                <div className="px-6 py-4 text-left text-sm font-semibold text-muted-foreground">
+              <div className="grid grid-cols-3 gap-0 border-b border-[#e5e5ea] bg-[#f5f5f7]">
+                <div className="px-6 py-4 text-left text-sm font-semibold text-[#86868b]">
                   Feature
                 </div>
-                <div className="px-6 py-4 text-center text-sm font-semibold text-foreground">
+                <div className="px-6 py-4 text-center text-sm font-semibold text-[#1d1d1f]">
                   Free
                 </div>
-                <div className="px-6 py-4 text-center text-sm font-semibold text-primary">
+                <div className="px-6 py-4 text-center text-sm font-semibold text-[#0071e3]">
                   Pro
                 </div>
               </div>
@@ -284,17 +274,17 @@ export default function PricingPage() {
               {comparisonRows.map((row, i) => (
                 <div
                   key={row.label}
-                  className={`grid grid-cols-3 gap-0 transition-colors hover:bg-muted/30 ${
-                    i % 2 === 0 ? "bg-white" : "bg-muted/10"
+                  className={`grid grid-cols-3 gap-0 transition-colors hover:bg-[#f5f5f7] ${
+                    i < comparisonRows.length - 1 ? "border-b border-[#e5e5ea]" : ""
                   }`}
                 >
-                  <div className="px-6 py-4 text-left text-sm font-medium text-foreground">
+                  <div className="px-6 py-4 text-left text-sm font-medium text-[#1d1d1f]">
                     {row.label}
                   </div>
-                  <div className="flex items-center justify-center px-6 py-4 text-sm text-muted-foreground">
+                  <div className="flex items-center justify-center px-6 py-4 text-sm text-[#86868b]">
                     {row.free === true ? <CheckIcon /> : row.free === false ? <MinusIcon /> : row.free}
                   </div>
-                  <div className="flex items-center justify-center px-6 py-4 text-sm font-medium text-foreground">
+                  <div className="flex items-center justify-center px-6 py-4 text-sm font-medium text-[#1d1d1f]">
                     {row.pro === true ? <CheckIcon /> : row.pro === false ? <MinusIcon /> : row.pro}
                   </div>
                 </div>
@@ -304,34 +294,34 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* ─────────────── FAQ — bento accordion ─────────────── */}
-      <section className="bg-muted/30 px-6 py-20 sm:py-28">
+      {/* ─────────────── FAQ ─────────────── */}
+      <section className="bg-[#f5f5f7] px-6 py-20 sm:py-28">
         <div className="mx-auto max-w-3xl">
           <AnimateIn>
             <div className="text-center">
-              <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold tracking-wide text-primary uppercase">
+              <span className="inline-block rounded-full bg-[#0071e3]/10 px-3 py-1 text-xs font-semibold tracking-wide text-[#0071e3] uppercase">
                 FAQ
               </span>
-              <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#1d1d1f] sm:text-4xl">
                 Frequently asked questions
               </h2>
-              <p className="mx-auto mt-3 max-w-2xl text-lg text-muted-foreground">
+              <p className="mx-auto mt-3 max-w-2xl text-lg text-[#86868b]">
                 Everything you need to know about our pricing and billing.
               </p>
             </div>
           </AnimateIn>
 
           <AnimateIn delay={150}>
-            <div className="mt-12 space-y-3">
+            <div className="mt-12 space-y-2">
               {faqs.map((faq) => (
                 <details
                   key={faq.q}
-                  className="group overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-all duration-200 hover:border-border/80 hover:shadow-md"
+                  className="group overflow-hidden rounded-xl border border-[#e5e5ea] bg-white shadow-sm transition-all duration-200"
                 >
-                  <summary className="bento-accent-blue flex cursor-pointer items-center justify-between px-6 py-4 text-sm font-medium text-foreground">
+                  <summary className="flex cursor-pointer items-center justify-between px-5 py-4 text-sm font-medium text-[#1d1d1f]">
                     <span>{faq.q}</span>
                     <svg
-                      className="ml-2 h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-180"
+                      className="ml-2 h-4 w-4 shrink-0 text-[#86868b] transition-transform duration-200 group-open:rotate-180"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -340,7 +330,7 @@ export default function PricingPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                     </svg>
                   </summary>
-                  <div className="border-t border-border px-6 py-4 text-sm leading-relaxed text-muted-foreground">
+                  <div className="border-t border-[#e5e5ea] px-5 py-4 text-sm leading-relaxed text-[#86868b]">
                     {faq.a}
                   </div>
                 </details>
@@ -351,33 +341,28 @@ export default function PricingPage() {
       </section>
 
       {/* ─────────────── CTA ─────────────── */}
-      <section className="relative overflow-hidden bg-primary px-6 py-20 sm:py-28">
-        {/* Decorative bento elements */}
-        <div className="pointer-events-none absolute -left-20 -top-20 h-40 w-40 rounded-full bg-primary-foreground/[0.04] blur-2xl" />
-        <div className="pointer-events-none absolute -bottom-20 -right-20 h-40 w-40 rounded-full bg-primary-foreground/[0.04] blur-2xl" />
-        <div className="pointer-events-none absolute left-1/2 top-1/2 h-60 w-60 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-foreground/[0.02] blur-3xl" />
-
+      <section className="bg-white px-6 py-20 sm:py-28">
         <AnimateIn>
-          <div className="relative mx-auto max-w-3xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-primary-foreground sm:text-4xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="text-3xl font-semibold tracking-tight text-[#1d1d1f] sm:text-4xl">
               Start monitoring in 30 seconds
             </h2>
-            <p className="mt-4 text-lg text-primary-foreground/80">
-              No credit card required. Upgrade anytime.
+            <p className="mt-4 text-lg text-[#86868b]">
+              Add your first URL, choose your check interval, and we&apos;ll alert
+              you if it ever goes down.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link href="/auth/signup">
                 <Button
                   size="lg"
-                  variant="secondary"
-                  className="px-8 text-base shadow-lg transition-all hover:shadow-xl"
+                  className="px-8 text-base shadow-sm"
                 >
                   Get Started Free
                 </Button>
               </Link>
               <Link
-                href="/#features"
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary-foreground/70 transition-colors hover:text-primary-foreground"
+                href="/"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-[#86868b] transition-colors hover:text-[#1d1d1f]"
               >
                 Learn more about features
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">

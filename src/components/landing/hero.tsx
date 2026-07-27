@@ -53,12 +53,6 @@ export function Hero() {
           </div>
         </AnimateIn>
 
-        <AnimateIn delay={450}>
-          <p className="mt-4 text-sm text-muted-foreground">
-            No credit card required &middot; Free plan included
-          </p>
-        </AnimateIn>
-
         {/* Stats bar — bento style */}
         <AnimateIn delay={500}>
           <div className="mx-auto mt-10 grid max-w-lg grid-cols-3 gap-3">
