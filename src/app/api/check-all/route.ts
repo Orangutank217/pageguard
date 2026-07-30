@@ -60,27 +60,22 @@ async function sendEmail({
 }
 
 export async function POST(request: NextRequest) {
-  console.log("[check-all] POST received", {
-    method: request.method,
-    url: request.url,
-    headers: Object.fromEntries(request.headers.entries()),
-    body: await request.clone().text().catch(() => "(no body)"),
-  });
+  const hasSecret = !!request.headers.get("x-cron-secret");
+  console.log("[check-all] POST", { hasSecret, ua: request.headers.get("user-agent")?.slice(0, 60) });
   return handleCheckAll(request);
 }
 
 export async function GET(request: NextRequest) {
-  console.log("[check-all] GET received", {
-    method: request.method,
-    url: request.url,
-    headers: Object.fromEntries(request.headers.entries()),
-  });
+  const hasSecret = !!request.headers.get("x-cron-secret");
+  console.log("[check-all] GET", { hasSecret, ua: request.headers.get("user-agent")?.slice(0, 60) });
   return handleCheckAll(request);
 }
 
 async function handleCheckAll(request: NextRequest) {
-  // Verify cron secret
-  const auth = request.headers.get("x-cron-secret");
+  // Verify cron secret — check header first, then query param as fallback
+  const authHeader = request.headers.get("x-cron-secret");
+  const authQuery = request.nextUrl.searchParams.get("secret");
+  const auth = authHeader ?? authQuery;
   if (auth !== process.env.CRON_SECRET) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
