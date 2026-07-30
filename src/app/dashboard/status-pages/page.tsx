@@ -6,6 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/shared/empty-state";
 import { CreateStatusPageModal } from "./create-modal";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { FileText, ExternalLink, Copy, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import type { StatusPage } from "@/types/database";
@@ -14,6 +22,7 @@ export default function StatusPagesPage() {
   const [pages, setPages] = useState<(StatusPage & { monitor_ids: string[] })[]>([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
+  const [deletingPage, setDeletingPage] = useState<StatusPage | null>(null);
 
   const fetchPages = async () => {
     const res = await fetch("/api/status-pages");
@@ -34,11 +43,14 @@ export default function StatusPagesPage() {
     toast.success("Link copied!");
   };
 
-  const deletePage = async (id: string, title: string) => {
-    if (!window.confirm(`Delete "${title}"? This cannot be undone.`)) return;
-    const res = await fetch(`/api/status-pages/${id}`, { method: "DELETE" });
+  const executeDelete = async () => {
+    if (!deletingPage) return;
+    const res = await fetch(`/api/status-pages/${deletingPage.id}`, {
+      method: "DELETE",
+    });
     if (res.ok) {
       toast.success("Status page deleted");
+      setDeletingPage(null);
       fetchPages();
     } else {
       const err = await res.json();
@@ -146,7 +158,7 @@ export default function StatusPagesPage() {
                   variant="outline"
                   size="sm"
                   className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
-                  onClick={() => deletePage(page.id, page.title)}
+                  onClick={() => setDeletingPage(page)}
                 >
                   <Trash2 className="h-3 w-3" />
                 </Button>
@@ -161,6 +173,30 @@ export default function StatusPagesPage() {
         onOpenChange={setModalOpen}
         onSuccess={fetchPages}
       />
+
+      <Dialog
+        open={!!deletingPage}
+        onOpenChange={(open) => !open && setDeletingPage(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete Status Page</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete{" "}
+              <strong>{deletingPage?.title}</strong>? This will also unlink all
+              monitors from this status page. This cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDeletingPage(null)}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={executeDelete}>
+              Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
