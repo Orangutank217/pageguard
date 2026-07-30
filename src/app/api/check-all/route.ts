@@ -60,6 +60,25 @@ async function sendEmail({
 }
 
 export async function POST(request: NextRequest) {
+  console.log("[check-all] POST received", {
+    method: request.method,
+    url: request.url,
+    headers: Object.fromEntries(request.headers.entries()),
+    body: await request.clone().text().catch(() => "(no body)"),
+  });
+  return handleCheckAll(request);
+}
+
+export async function GET(request: NextRequest) {
+  console.log("[check-all] GET received", {
+    method: request.method,
+    url: request.url,
+    headers: Object.fromEntries(request.headers.entries()),
+  });
+  return handleCheckAll(request);
+}
+
+async function handleCheckAll(request: NextRequest) {
   // Verify cron secret
   const auth = request.headers.get("x-cron-secret");
   if (auth !== process.env.CRON_SECRET) {
