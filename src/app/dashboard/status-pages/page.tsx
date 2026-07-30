@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/shared/empty-state";
 import { CreateStatusPageModal } from "./create-modal";
-import { FileText, ExternalLink, Copy } from "lucide-react";
+import { FileText, ExternalLink, Copy, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import type { StatusPage } from "@/types/database";
 
@@ -32,6 +32,18 @@ export default function StatusPagesPage() {
     const url = `${window.location.origin}/status/${slug}`;
     navigator.clipboard.writeText(url);
     toast.success("Link copied!");
+  };
+
+  const deletePage = async (id: string, title: string) => {
+    if (!window.confirm(`Delete "${title}"? This cannot be undone.`)) return;
+    const res = await fetch(`/api/status-pages/${id}`, { method: "DELETE" });
+    if (res.ok) {
+      toast.success("Status page deleted");
+      fetchPages();
+    } else {
+      const err = await res.json();
+      toast.error(err.error || "Failed to delete");
+    }
   };
 
   if (loading) {
@@ -129,6 +141,14 @@ export default function StatusPagesPage() {
                   }
                 >
                   <ExternalLink className="h-3 w-3" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
+                  onClick={() => deletePage(page.id, page.title)}
+                >
+                  <Trash2 className="h-3 w-3" />
                 </Button>
               </div>
             </div>
